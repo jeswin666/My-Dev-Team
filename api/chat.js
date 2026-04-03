@@ -11,7 +11,7 @@ module.exports = async function handler(req, res) {
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey)
-    return res.status(500).json({ error: "ANTHROPIC_API_KEY not configured" });
+    return res.status(500).json({ error: "ANTHROPIC_API_KEY not configured. Add it in Vercel → Settings → Environment Variables." });
 
   try {
     const { system, messages, max_tokens } = req.body;
@@ -42,14 +42,21 @@ module.exports = async function handler(req, res) {
         r.on("data", (chunk) => (data += chunk));
         r.on("end", () => {
           try {
-            resolve({ status: r.statusCode, body: JSON.parse(data) });
+            const body = JSON.parse(data);
+            // Extract clean error message if Anthropic returned an error
+            if (body.error) {
+              const msg = body.error.message || JSON.stringify(body.error);
+              resolve({ status: r.statusCode, body: { error: msg } });
+            } else {
+              resolve({ status: r.statusCode, body });
+            }
           } catch (e) {
-            reject(new Error("Invalid JSON from Anthropic"));
+            reject(new Error("Invalid JSON from Anthropic: " + data.slice(0, 200)));
           }
         });
       });
 
-      reqAnth.on("error", reject);
+      reqAnth.on("error", (e) => reject(new Error("Network error: " + e.message)));
       reqAnth.write(payload);
       reqAnth.end();
     });
