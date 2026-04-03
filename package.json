@@ -1,0 +1,9 @@
+{
+  "name": "ai-dev-team",
+  "version": "1.0.0",
+  "description": "AI-powered multi-agent developer team workspace",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}

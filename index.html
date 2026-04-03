@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Dev Team</title>
+<style>
+  :root {
+    --bg0: #0d0f18;
+    --bg1: #13151f;
+    --bg2: #1a1d2a;
+    --bg3: #222535;
+    --bd:  rgba(255,255,255,0.07);
+    --bd2: rgba(255,255,255,0.12);
+    --t0: #e8eaf2;
+    --t1: #9499b8;
+    --t2: #5a5f7a;
+    --purple: #7f77dd;
+    --blue:   #378add;
+    --teal:   #1d9e75;
+    --coral:  #d85a30;
+    --amber:  #ba7517;
+    --green:  #639922;
+    --warn-bg: rgba(186,117,23,0.1);
+    --warn-bd: rgba(186,117,23,0.35);
+    --r-sm: 6px;
+    --r-md: 8px;
+    --r-lg: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg0); color: var(--t0); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; overflow: hidden; }
+
+  /* ── Layout ── */
+  #app { display: flex; height: 100vh; }
+
+  /* ── Sidebar ── */
+  .sb { width: 200px; min-width: 200px; background: var(--bg1); border-right: 1px solid var(--bd); display: flex; flex-direction: column; }
+  .sb-header { padding: 16px 14px 10px; border-bottom: 1px solid var(--bd); }
+  .sb-logo { font-size: 13px; font-weight: 600; color: var(--t0); display: flex; align-items: center; gap: 7px; }
+  .sb-logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+  .sb-team { padding: 12px 14px; flex-shrink: 0; }
+  .sb-lbl { font-size: 10px; font-weight: 600; color: var(--t2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .ag-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+  .av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; flex-shrink: 0; }
+  .ag-n { font-size: 12px; font-weight: 500; color: var(--t0); }
+  .ag-r { font-size: 11px; color: var(--t1); }
+  .sdot { width: 6px; height: 6px; border-radius: 50%; background: var(--bg3); margin-left: auto; flex-shrink: 0; transition: background 0.3s; }
+  .sdot.thinking { background: var(--amber); animation: bk 1s infinite; }
+  .sdot.done { background: var(--teal); }
+  .sdot.question { background: var(--coral); }
+  .sdot.gen { background: var(--purple); animation: bk 0.7s infinite; }
+  @keyframes bk { 0%,100%{opacity:1}50%{opacity:0.2} }
+
+  /* Projects section */
+  .sb-projs { flex: 1; overflow-y: auto; padding: 10px 14px; border-top: 1px solid var(--bd); }
+  .sb-bot { padding: 10px 14px; border-top: 1px solid var(--bd); flex-shrink: 0; }
+  .proj-row { display: flex; align-items: center; gap: 6px; padding: 5px 7px; border-radius: var(--r-sm); cursor: pointer; font-size: 12px; color: var(--t1); }
+  .proj-row:hover, .proj-row.cur { background: var(--bg3); color: var(--t0); }
+  .proj-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ── Main ── */
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg0); }
+
+  /* Tab bar */
+  .tabbar { display: flex; align-items: center; border-bottom: 1px solid var(--bd); padding: 0 6px; flex-shrink: 0; background: var(--bg1); }
+  .tab { height: 42px; padding: 0 14px; font-size: 13px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--t1); cursor: pointer; font-family: inherit; transition: color 0.2s; }
+  .tab.on { color: var(--t0); border-bottom-color: var(--purple); font-weight: 500; }
+  .tab:disabled { opacity: 0.3; cursor: not-allowed; }
+  .ph { font-size: 11px; color: var(--t2); margin-left: auto; padding-right: 10px; }
+
+  /* Views */
+  .view { flex: 1; overflow: hidden; display: none; flex-direction: column; }
+  .view.on { display: flex; }
+
+  /* Messages */
+  .msgs { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .msgs::-webkit-scrollbar { width: 4px; }
+  .msgs::-webkit-scrollbar-track { background: transparent; }
+  .msgs::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+  .mrow { display: flex; gap: 9px; align-items: flex-start; }
+  .mrow.u { flex-direction: row-reverse; }
+  .mav { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; flex-shrink: 0; }
+  .mc { max-width: 78%; min-width: 0; }
+  .mh { font-size: 11px; color: var(--t2); margin-bottom: 4px; }
+  .mrow.u .mh { text-align: right; }
+  .mb { background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--r-lg); padding: 10px 13px; font-size: 13px; line-height: 1.7; color: var(--t0); white-space: pre-wrap; word-break: break-word; }
+  .mrow.u .mb { background: var(--bg1); border-color: var(--bd2); }
+  .tdots { display: flex; align-items: center; gap: 4px; padding: 10px 14px; }
+  .td { width: 5px; height: 5px; border-radius: 50%; background: var(--t2); animation: bo 1.2s infinite; }
+  .td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+  @keyframes bo { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)} }
+  .divmsg { font-size: 11px; color: var(--t2); text-align: center; padding: 2px 0; }
+
+  /* Code view */
+  .cv { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .ctabs { display: flex; overflow-x: auto; border-bottom: 1px solid var(--bd); background: var(--bg1); flex-shrink: 0; }
+  .ctabs::-webkit-scrollbar { display: none; }
+  .ctab { height: 36px; padding: 0 13px; font-size: 12px; font-family: 'SF Mono', 'Fira Code', monospace; background: none; border: none; border-bottom: 2px solid transparent; color: var(--t1); cursor: pointer; white-space: nowrap; }
+  .ctab.on { color: var(--t0); border-bottom-color: var(--purple); }
+  .ctab.rdy { color: var(--teal); }
+  .ctab.gen { color: var(--amber); }
+  .carea { flex: 1; overflow-y: auto; padding: 14px 16px; }
+  .carea::-webkit-scrollbar { width: 4px; }
+  .carea::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+  .cblock { border: 1px solid var(--bd); border-radius: var(--r-md); overflow: hidden; }
+  .chdr { display: flex; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--bd); background: var(--bg2); gap: 8px; }
+  .cfn { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: var(--t1); flex: 1; }
+  .code-btns { display: flex; gap: 6px; }
+  .cbtn { font-size: 11px; padding: 4px 10px; background: var(--bg3); border: 1px solid var(--bd2); border-radius: var(--r-sm); color: var(--t0); cursor: pointer; font-family: inherit; }
+  .cbtn:hover { background: var(--bg2); border-color: var(--purple); }
+  pre { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 12px; line-height: 1.65; color: var(--t0); padding: 14px; overflow-x: auto; white-space: pre; background: var(--bg0); margin: 0; }
+  pre::-webkit-scrollbar { height: 4px; }
+  pre::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+  .cph { text-align: center; padding: 48px; color: var(--t2); font-size: 13px; }
+  .gind { display: flex; align-items: center; gap: 8px; padding: 16px; font-size: 13px; color: var(--t1); }
+
+  /* Bottom panels */
+  .qpanel { border-top: 1px solid var(--warn-bd); background: var(--warn-bg); padding: 10px 16px; flex-shrink: 0; }
+  .qh { font-size: 11px; font-weight: 600; color: var(--amber); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .qi { font-size: 12px; line-height: 1.6; margin-bottom: 4px; padding-left: 10px; border-left: 2px solid var(--amber); color: var(--t0); }
+  .qi b { color: var(--amber); }
+  .actbar { border-top: 1px solid var(--bd); padding: 10px 16px; display: flex; align-items: center; gap: 12px; background: var(--bg1); flex-shrink: 0; }
+  .gbtn { font-size: 13px; padding: 0 16px; height: 36px; background: var(--purple); border: none; border-radius: var(--r-md); color: #fff; cursor: pointer; font-family: inherit; font-weight: 500; transition: opacity 0.2s; }
+  .gbtn:hover { opacity: 0.85; }
+  .gbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .inparea { border-top: 1px solid var(--bd); padding: 12px 16px; display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0; background: var(--bg1); }
+  textarea { flex: 1; resize: none; height: 52px; font-size: 13px; background: var(--bg2); border: 1px solid var(--bd2); border-radius: var(--r-md); color: var(--t0); padding: 10px 12px; font-family: inherit; outline: none; }
+  textarea::placeholder { color: var(--t2); }
+  textarea:focus { border-color: var(--purple); }
+  .sbtn { height: 38px; padding: 0 16px; font-size: 13px; background: var(--bg3); border: 1px solid var(--bd2); border-radius: var(--r-md); color: var(--t0); cursor: pointer; font-family: inherit; white-space: nowrap; transition: border-color 0.2s; }
+  .sbtn:hover { border-color: var(--purple); }
+  .sbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .new-btn { width: 100%; font-size: 12px; padding: 7px; background: transparent; border: 1px solid var(--bd2); border-radius: var(--r-sm); color: var(--t1); cursor: pointer; font-family: inherit; }
+  .new-btn:hover { border-color: var(--purple); color: var(--t0); }
+
+  /* Welcome */
+  .welcome { text-align: center; padding: 60px 32px; margin: auto; max-width: 420px; }
+  .wi { font-size: 36px; margin-bottom: 16px; }
+  .wt { font-size: 18px; font-weight: 600; color: var(--t0); margin-bottom: 10px; }
+  .ws { font-size: 13px; line-height: 1.75; color: var(--t1); }
+  .we { margin-top: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .we-item { background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--r-md); padding: 8px 12px; font-size: 12px; color: var(--t1); text-align: left; cursor: pointer; transition: border-color 0.2s; }
+  .we-item:hover { border-color: var(--purple); color: var(--t0); }
+
+  /* Scrollbars */
+  .sb-projs::-webkit-scrollbar { width: 3px; }
+  .sb-projs::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Sidebar -->
+  <div class="sb">
+    <div class="sb-header">
+      <div class="sb-logo"><div class="sb-logo-dot"></div>AI Dev Team</div>
+    </div>
+    <div class="sb-team">
+      <div class="sb-lbl">Team</div>
+      <div id="alist"></div>
+    </div>
+    <div class="sb-projs">
+      <div class="sb-lbl">Projects</div>
+      <div id="plist"><div style="font-size:12px;color:var(--t2)">No projects yet</div></div>
+    </div>
+    <div class="sb-bot">
+      <button class="new-btn" onclick="newProj()">+ New project</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="tabbar">
+      <button class="tab on" id="t-plan" onclick="swTab('plan')">Planning</button>
+      <button class="tab" id="t-code" onclick="swTab('code')" disabled>Code Files</button>
+      <span class="ph" id="phbadge">Ready</span>
+    </div>
+
+    <!-- Planning view -->
+    <div class="view on" id="v-plan">
+      <div class="msgs" id="msgs">
+        <div class="welcome" id="welcome">
+          <div class="wi">🖥️</div>
+          <div class="wt">Your AI dev team is ready</div>
+          <div class="ws">Describe any website or app. Six specialists will plan every layer — then generate downloadable starter code files.</div>
+          <div class="we">
+            <div class="we-item" onclick="useExample(this)">📱 A subscription-based recipe app with meal planning and grocery lists</div>
+            <div class="we-item" onclick="useExample(this)">💼 A SaaS invoicing tool for freelancers with client portals</div>
+            <div class="we-item" onclick="useExample(this)">🏠 A real-estate listing platform with agent dashboards</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code view -->
+    <div class="view" id="v-code">
+      <div class="cv">
+        <div class="ctabs" id="ctabs"></div>
+        <div class="carea" id="carea"><div class="cph">Run the team's planning first, then click "Generate Code"</div></div>
+      </div>
+    </div>
+
+    <!-- Questions panel -->
+    <div id="qpanel" style="display:none" class="qpanel">
+      <div class="qh">Questions from the team — please reply below</div>
+      <div id="qlist"></div>
+    </div>
+
+    <!-- Action bar -->
+    <div id="actbar" style="display:none" class="actbar">
+      <button class="gbtn" id="gbtn" onclick="startCodeGen()">Generate 5 starter files ↗</button>
+      <span style="font-size:12px;color:var(--t1)">Planning complete · server, DB schema, frontend, auth, tests</span>
+    </div>
+
+    <!-- Input -->
+    <div class="inparea">
+      <textarea id="inp" placeholder="Describe what you want to build..."></textarea>
+      <button class="sbtn" id="sbtn" onclick="go()">Brief the team ↗</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const AGENTS = [
+  {id:'orchestrator',name:'Priya',role:'PM',init:'PM',c:'#7f77dd',bg:'rgba(127,119,221,0.15)'},
+  {id:'backend',name:'Alex',role:'Backend',init:'BE',c:'#378add',bg:'rgba(55,138,221,0.15)'},
+  {id:'dba',name:'Riley',role:'DBA',init:'DB',c:'#1d9e75',bg:'rgba(29,158,117,0.15)'},
+  {id:'frontend',name:'Sam',role:'Frontend',init:'FE',c:'#d85a30',bg:'rgba(216,90,48,0.15)'},
+  {id:'security',name:'Morgan',role:'Security',init:'SE',c:'#ba7517',bg:'rgba(186,117,23,0.15)'},
+  {id:'qa',name:'Jordan',role:'QA',init:'QA',c:'#639922',bg:'rgba(99,153,34,0.15)'},
+];
+const FILES = [
+  {aid:'backend',file:'server.js'},
+  {aid:'dba',file:'schema.sql'},
+  {aid:'frontend',file:'App.jsx'},
+  {aid:'security',file:'auth.js'},
+  {aid:'qa',file:'app.test.js'},
+];
+
+const PLAN = {
+orchestrator:`You are Priya, Project Manager of a software dev team. Your team:
+- Alex (Backend Dev): REST APIs, Node.js, cloud
+- Riley (DBA): PostgreSQL, schema design, indexing
+- Sam (Frontend Dev): React, UX, TypeScript
+- Morgan (Security Eng): Auth, OWASP, compliance
+- Jordan (QA): Testing, CI/CD, quality
+
+Analyze the client's brief. Respond in this EXACT format:
+
+📋 PROJECT SUMMARY
+[2-3 sentence summary]
+
+🎯 TEAM TASKS
+**Alex (Backend):** [specific task]
+**Riley (DBA):** [specific task]
+**Sam (Frontend):** [specific task]
+**Morgan (Security):** [specific task]
+**Jordan (QA):** [specific task]
+
+❓ QUESTIONS FOR CLIENT
+[numbered list, or: None — team is ready to proceed!]`,
+backend:`You are Alex, senior Backend Developer. Expertise: REST/GraphQL, Node.js, Python, microservices, Redis.
+Respond to your PM task:
+
+🔧 ARCHITECTURE
+[Tech stack and design — 2 sentences]
+
+🔌 KEY ENDPOINTS
+[4-6 main API endpoints]
+
+⚠️ TECHNICAL NOTES
+[Key decisions or risks]
+
+If you need client input:
+❓ MY QUESTIONS
+[one per line]
+
+150-200 words.`,
+dba:`You are Riley, DBA. Expertise: PostgreSQL, MongoDB, Redis, schema design.
+Respond:
+
+🗄️ DATABASE CHOICE
+[DB recommendation and why]
+
+📊 CORE SCHEMA
+[Key tables/collections with fields]
+
+📈 PERFORMANCE NOTES
+[Indexes and scaling]
+
+If you need client input:
+❓ MY QUESTIONS
+[one per line]
+
+150-200 words.`,
+frontend:`You are Sam, senior Frontend Developer. Expertise: React, Next.js, TypeScript, Tailwind.
+Respond:
+
+🎨 TECH STACK
+[Framework and approach]
+
+🖥️ KEY SCREENS
+[4-6 screens or components]
+
+✨ UX NOTES
+[Design decisions and patterns]
+
+If you need client input:
+❓ MY QUESTIONS
+[one per line]
+
+150-200 words.`,
+security:`You are Morgan, Security Engineer. Expertise: OAuth2, JWT, OWASP Top 10, encryption.
+Respond:
+
+🔐 AUTH STRATEGY
+[Authentication approach]
+
+🛡️ SECURITY CONTROLS
+[4-6 specific controls]
+
+🚨 TOP RISKS
+[2-3 project-specific risks]
+
+If you need client input:
+❓ MY QUESTIONS
+[one per line]
+
+150-200 words.`,
+qa:`You are Jordan, QA Engineer. Expertise: Jest, Cypress, Playwright, API testing, CI/CD.
+Respond:
+
+🧪 TEST STRATEGY
+[Unit, integration, e2e approach]
+
+✅ KEY TEST SCENARIOS
+[4-6 critical test cases]
+
+🔁 CI/CD INTEGRATION
+[Pipeline integration approach]
+
+If you need client input:
+❓ MY QUESTIONS
+[one per line]
+
+150-200 words.`,
+followup:`You are Priya, PM. Client answered team questions. Acknowledge in 2-3 sentences, flag changes with ⚠️, confirm team can proceed. Max 4 sentences.`
+};
+
+const CODE = {
+backend:`You are Alex. Generate a Node.js + Express starter server based on this project plan.
+Output ONLY raw JavaScript — no markdown fences, no explanations. Include: require statements, express/cors/body-parser setup, 5-6 API routes from the plan (with // TODO: for logic), error handler, app.listen.
+Max 90 lines. First line: // server.js — [Project Name] API Server`,
+dba:`You are Riley. Generate a PostgreSQL schema based on this project plan.
+Output ONLY raw SQL — no markdown fences. Include: DROP TABLE IF EXISTS (CASCADE), CREATE TABLE for 3-4 core entities, primary/foreign keys, constraints, 3-4 CREATE INDEX statements, -- comments.
+Max 70 lines. First line: -- schema.sql — [Project Name] Database`,
+frontend:`You are Sam. Generate a React App.jsx starter based on this project plan.
+Output ONLY raw JSX — no markdown fences. Include: React imports, inline Nav component, main App component, screen placeholders with // PAGE: comments, fetch calls to key endpoints.
+Max 90 lines. First line: // App.jsx — [Project Name] Frontend`,
+security:`You are Morgan. Generate Express.js security middleware based on this project plan.
+Output ONLY raw JavaScript — no markdown fences. Include: JWT verify middleware, express-rate-limit config, input sanitizer, CORS options, security headers middleware, role check helper.
+Max 75 lines. First line: // auth.js — Security & Auth Middleware`,
+qa:`You are Jordan. Generate a Jest + Supertest test file based on this project plan.
+Output ONLY raw JavaScript — no markdown fences. Include: supertest + app imports, jest.mock for DB, beforeAll/afterAll, describe/test blocks for key endpoints, happy path + error cases.
+Max 90 lines. First line: // app.test.js — [Project Name] Test Suite`
+};
+
+// ── State ──
+let st = { phase:'idle', projId:null, brief:'', planCtx:'', agOut:{}, qs:[], dels:{}, activeCode:'backend' };
+let chatHist = [];
+
+// ── Helpers ──
+const ag = id => AGENTS.find(a => a.id === id);
+const $ = id => document.getElementById(id);
+const setDot = (id, s) => { const d = $(`d-${id}`); if (d) d.className = `sdot ${s}`; };
+
+function renderTeam() {
+  $('alist').innerHTML = AGENTS.map(a => `
+    <div class="ag-row">
+      <div class="av" style="background:${a.bg};color:${a.c}">${a.init}</div>
+      <div><div class="ag-n">${a.name}</div><div class="ag-r">${a.role}</div></div>
+      <div class="sdot" id="d-${a.id}"></div>
+    </div>`).join('');
+}
+
+// ── Storage ──
+async function saveProj() {
+  if (!st.projId) return;
+  try {
+    const data = { brief: st.brief, planCtx: st.planCtx, chat: chatHist, dels: st.dels, ts: Date.now() };
+    localStorage.setItem(`dt:p:${st.projId}`, JSON.stringify(data));
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('dt:list') || '[]'); } catch(e) {}
+    const idx = list.findIndex(p => p.id === st.projId);
+    const entry = { id: st.projId, name: st.brief.slice(0, 38) + (st.brief.length > 38 ? '…' : ''), ts: Date.now() };
+    if (idx >= 0) list[idx] = entry; else list.unshift(entry);
+    localStorage.setItem('dt:list', JSON.stringify(list.slice(0, 8)));
+    renderProjList(list.slice(0, 8));
+  } catch(e) {}
+}
+
+function renderProjList(list) {
+  $('plist').innerHTML = (!list || !list.length)
+    ? '<div style="font-size:12px;color:var(--t2)">No projects yet</div>'
+    : list.map(p => `<div class="proj-row ${p.id===st.projId?'cur':''}" onclick="openProj('${p.id}')"><span>📁</span><span title="${p.name}">${p.name}</span></div>`).join('');
+}
+
+function loadProjList() {
+  try { renderProjList(JSON.parse(localStorage.getItem('dt:list') || '[]')); } catch(e) {}
+}
+
+function openProj(id) {
+  try {
+    const data = JSON.parse(localStorage.getItem(`dt:p:${id}`) || 'null');
+    if (!data) return;
+    st.projId = id; st.brief = data.brief; st.planCtx = data.planCtx || '';
+    st.dels = data.dels || {}; chatHist = data.chat || [];
+    st.phase = Object.keys(st.dels).length ? 'done' : 'done-plan';
+    $('msgs').innerHTML = '';
+    chatHist.forEach(m => addMsgRaw(m.aid, m.txt, m.u));
+    $('qpanel').style.display = 'none';
+    if (st.phase !== 'idle') { $('actbar').style.display = 'flex'; $('phbadge').textContent = 'Planning complete'; }
+    if (Object.keys(st.dels).length) { $('t-code').disabled = false; renderCodeTabs(); }
+    document.querySelectorAll('.proj-row').forEach(el => el.classList.remove('cur'));
+    document.querySelectorAll('.proj-row').forEach(el => { if (el.textContent.includes(data.brief.slice(0, 20))) el.classList.add('cur'); });
+    AGENTS.forEach(a => setDot(a.id, st.dels[a.id] ? 'done' : 'idle'));
+  } catch(e) {}
+}
+
+function newProj() {
+  st = { phase:'idle', projId:null, brief:'', planCtx:'', agOut:{}, qs:[], dels:{}, activeCode:'backend' };
+  chatHist = [];
+  $('msgs').innerHTML = `<div class="welcome" id="welcome"><div class="wi">🖥️</div><div class="wt">New project</div><div class="ws">Describe your app or website to brief the team.</div></div>`;
+  $('qpanel').style.display = 'none'; $('actbar').style.display = 'none';
+  $('t-code').disabled = true; $('phbadge').textContent = 'Ready';
+  $('sbtn').textContent = 'Brief the team ↗'; $('inp').placeholder = 'Describe what you want to build...';
+  AGENTS.forEach(a => setDot(a.id, 'idle'));
+  swTab('plan');
+  document.querySelectorAll('.proj-row').forEach(el => el.classList.remove('cur'));
+}
+
+// ── Tabs ──
+function swTab(t) {
+  $('t-plan').className = `tab${t==='plan'?' on':''}`; $('t-code').className = `tab${t==='code'?' on':''}`;
+  $('v-plan').className = `view${t==='plan'?' on':''}`; $('v-code').className = `view${t==='code'?' on':''}`;
+}
+
+// ── Code view ──
+function renderCodeTabs() {
+  $('ctabs').innerHTML = FILES.map(f => {
+    const done = !!st.dels[f.aid];
+    return `<button class="ctab${f.aid===st.activeCode?' on':''} ${done?'rdy':''}" id="ct-${f.aid}" onclick="showCode('${f.aid}')">${f.file}${done?' ✓':''}</button>`;
+  }).join('');
+  showCode(st.activeCode);
+}
+
+function showCode(aid) {
+  st.activeCode = aid;
+  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('on'));
+  const t = $(`ct-${aid}`); if (t) t.classList.add('on');
+  const area = $('carea'); const code = st.dels[aid]; const fi = FILES.find(f => f.aid === aid);
+  if (code === null) { area.innerHTML = `<div class="gind"><div class="td"></div><div class="td"></div><div class="td"></div>&nbsp; Writing ${fi?.file}...</div>`; return; }
+  if (!code) { area.innerHTML = `<div class="cph">This file will be generated when you click "Generate Code"</div>`; return; }
+  area.innerHTML = `<div class="cblock">
+    <div class="chdr"><span class="cfn">${fi?.file}</span>
+      <div class="code-btns">
+        <button class="cbtn" onclick="copyCode('${aid}')">Copy</button>
+        <button class="cbtn" onclick="dlCode('${aid}')">Download</button>
+      </div>
+    </div>
+    <pre>${escH(code)}</pre>
+  </div>`;
+}
+
+function escH(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function copyCode(aid) {
+  navigator.clipboard.writeText(st.dels[aid]).catch(() => {});
+  const b = event.target; b.textContent = 'Copied!'; setTimeout(() => b.textContent = 'Copy', 2000);
+}
+
+function dlCode(aid) {
+  const fi = FILES.find(f => f.aid === aid);
+  const blob = new Blob([st.dels[aid]], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = fi.file; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── API ──
+async function callAI(sys, msg) {
+  const r = await fetch('/api/chat', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system: sys, messages: [{ role: 'user', content: msg }], max_tokens: 1000 })
+  });
+  const d = await r.json();
+  if (d.error) throw new Error(d.error);
+  return d.content[0].text;
+}
+
+// ── Messages ──
+function addMsgRaw(aid, txt, isU) {
+  const msgs = $('msgs');
+  const w = msgs.querySelector('.welcome'); if (w) w.remove();
+  const a = isU ? { name:'You', role:'Client', init:'U', c:'var(--t1)', bg:'var(--bg3)' } : ag(aid);
+  const d = document.createElement('div'); d.className = `mrow${isU ? ' u' : ''}`;
+  d.innerHTML = `<div class="mav" style="background:${a.bg};color:${a.c}">${a.init}</div>
+    <div class="mc"><div class="mh">${isU ? 'You (Client)' : a.name + ' · ' + a.role}</div><div class="mb">${txt}</div></div>`;
+  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addMsg(aid, txt, isU) { chatHist.push({ aid, txt, u: isU || false }); addMsgRaw(aid, txt, isU); }
+
+function addDiv(txt) {
+  const d = document.createElement('div'); d.className = 'divmsg'; d.textContent = `— ${txt} —`;
+  $('msgs').appendChild(d); $('msgs').scrollTop = $('msgs').scrollHeight;
+}
+
+function addThink(aid) {
+  const msgs = $('msgs'); const a = ag(aid);
+  const d = document.createElement('div'); d.className = 'mrow'; d.id = `thi-${aid}`;
+  d.innerHTML = `<div class="mav" style="background:${a.bg};color:${a.c}">${a.init}</div>
+    <div class="mc"><div class="mh">${a.name} · ${a.role}</div>
+    <div class="mb tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
+  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+}
+
+function rmThink(id) { const e = $(`thi-${id}`); if (e) e.remove(); }
+
+function getQs(text, name) {
+  const m = text.match(/❓\s*MY QUESTIONS[\s\S]*?\n([\s\S]+?)(?=\n\n[^\n]|$)/i);
+  if (!m) return [];
+  return m[1].trim().split('\n').map(l => l.replace(/^[-•*\d.]\s*/, '').trim())
+    .filter(l => l.length > 4 && !/none/i.test(l)).map(q => ({ name, q }));
+}
+
+// ── Planning ──
+async function runPlan(brief) {
+  $('sbtn').disabled = true; $('phbadge').textContent = 'Team is planning...';
+  st.qs = []; let ctx = '';
+  try {
+    setDot('orchestrator', 'thinking'); addThink('orchestrator');
+    const o = await callAI(PLAN.orchestrator, `Client brief:\n${brief}`);
+    rmThink('orchestrator'); setDot('orchestrator', 'done'); addMsg('orchestrator', o);
+    ctx = `PM PLAN:\n${o}\n\n`; st.agOut.orchestrator = o;
+    st.qs.push(...getQs(o, 'Priya (PM)'));
+    addDiv('Team weighing in');
+    for (const aid of ['backend','dba','frontend','security','qa']) {
+      const a = ag(aid); setDot(aid, 'thinking'); addThink(aid);
+      const out = await callAI(PLAN[aid], `PROJECT BRIEF:\n${brief}\n\n${ctx}\nProvide your contribution.`);
+      rmThink(aid);
+      const qs = getQs(out, `${a.name} (${a.role})`); st.qs.push(...qs);
+      setDot(aid, qs.length ? 'question' : 'done'); addMsg(aid, out);
+      st.agOut[aid] = out; ctx += `${a.name.toUpperCase()}:\n${out}\n\n`;
+    }
+    st.planCtx = ctx;
+    if (st.qs.length) {
+      $('qpanel').style.display = 'block';
+      $('qlist').innerHTML = st.qs.map(q => `<div class="qi"><b>${q.name}:</b> ${q.q}</div>`).join('');
+      $('sbtn').textContent = 'Reply ↗'; $('phbadge').textContent = 'Questions pending'; st.phase = 'questions';
+    } else {
+      $('actbar').style.display = 'flex'; $('phbadge').textContent = 'Planning complete';
+      $('sbtn').textContent = 'Follow up ↗'; $('inp').placeholder = 'Ask a follow-up...'; st.phase = 'done-plan';
+    }
+    await saveProj();
+  } catch(e) {
+    AGENTS.forEach(a => { rmThink(a.id); setDot(a.id, 'idle'); });
+    addMsg('orchestrator', `Error: ${e.message}\n\nPlease try again.`);
+    st.phase = 'idle'; $('phbadge').textContent = 'Error — retry';
+  }
+  $('sbtn').disabled = false;
+}
+
+async function handleReply(msg) {
+  $('sbtn').disabled = true; addMsg(null, msg, true); setDot('orchestrator', 'thinking'); addThink('orchestrator');
+  try {
+    const ctx = `BRIEF: ${st.brief}\n\nPLAN:\n${st.planCtx}\n\nQUESTIONS:\n${st.qs.map(q=>`- ${q.name}: ${q.q}`).join('\n')}\n\nCLIENT REPLY:\n${msg}`;
+    const out = await callAI(PLAN.followup, ctx);
+    rmThink('orchestrator'); setDot('orchestrator', 'done'); addMsg('orchestrator', out);
+    $('qpanel').style.display = 'none';
+    AGENTS.forEach(a => { if ($(`d-${a.id}`)?.className.includes('question')) setDot(a.id, 'done'); });
+    $('actbar').style.display = 'flex'; $('phbadge').textContent = 'Planning complete';
+    $('sbtn').textContent = 'Follow up ↗'; st.phase = 'done-plan'; st.qs = [];
+    await saveProj();
+  } catch(e) { rmThink('orchestrator'); addMsg('orchestrator', 'Error: ' + e.message); }
+  $('sbtn').disabled = false;
+}
+
+// ── Code generation ──
+async function startCodeGen() {
+  const gbtn = $('gbtn'); gbtn.disabled = true; gbtn.textContent = 'Generating...';
+  $('t-code').disabled = false; swTab('code');
+  FILES.forEach(f => { st.dels[f.aid] = undefined; }); renderCodeTabs();
+  const ctx = `PROJECT BRIEF:\n${st.brief}\n\nDETAILED PLAN:\n${st.planCtx}`;
+  for (const { aid, file } of FILES) {
+    setDot(aid, 'gen'); st.dels[aid] = null;
+    const tab = $(`ct-${aid}`);
+    if (tab) { tab.className = 'ctab gen'; tab.textContent = file + ' ⋯'; }
+    if (st.activeCode === aid) showCode(aid);
+    try {
+      const code = await callAI(CODE[aid], ctx);
+      st.dels[aid] = code; setDot(aid, 'done');
+      if (tab) { tab.className = 'ctab rdy'; tab.textContent = file + ' ✓'; }
+      if (st.activeCode === aid) showCode(aid);
+    } catch(e) {
+      st.dels[aid] = `// Error generating ${file}: ${e.message}`;
+      setDot(aid, 'idle'); if (tab) { tab.className = 'ctab'; tab.textContent = file; }
+    }
+  }
+  st.activeCode = 'backend'; renderCodeTabs();
+  gbtn.disabled = false; gbtn.textContent = 'Regenerate ↗';
+  $('phbadge').textContent = '5 files ready';
+  await saveProj();
+}
+
+// ── Main handler ──
+function useExample(el) { $('inp').value = el.textContent.slice(2); $('inp').focus(); }
+
+async function go() {
+  const inp = $('inp'); const txt = inp.value.trim(); if (!txt) return; inp.value = '';
+  if (st.phase === 'questions') { await handleReply(txt); return; }
+  st.brief = txt; st.projId = Date.now().toString(); st.agOut = {}; st.dels = {}; chatHist = [];
+  st.phase = 'planning'; $('actbar').style.display = 'none'; $('qpanel').style.display = 'none';
+  $('t-code').disabled = true; AGENTS.forEach(a => setDot(a.id, 'idle'));
+  addMsg(null, txt, true); $('phbadge').textContent = 'Team is planning...';
+  await runPlan(txt);
+}
+
+$('inp').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); go(); } });
+renderTeam();
+loadProjList();
+</script>
+</body>
+</html>
