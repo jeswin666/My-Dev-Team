@@ -2,69 +2,101 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>AI Dev Team</title>
 <style>
 :root{
   --bg0:#0d0f18;--bg1:#13151f;--bg2:#1a1d2a;--bg3:#222535;--bg4:#2a2e42;
-  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);--bd3:rgba(255,255,255,0.2);
-  --t0:#e8eaf2;--t1:#9499b8;--t2:#5a5f7a;--t3:#363a52;
-  --purple:#7f77dd;--blue:#378add;--teal:#1d9e75;--coral:#d85a30;--amber:#ba7517;--green:#639922;--red:#c94a4a;
-  --warn-bg:rgba(186,117,23,0.1);--warn-bd:rgba(186,117,23,0.35);
-  --r-sm:5px;--r-md:8px;--r-lg:12px;
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);--bd3:rgba(255,255,255,0.22);
+  --t0:#e8eaf2;--t1:#9499b8;--t2:#5a5f7a;--t3:#3a3f58;
+  --purple:#7f77dd;--blue:#378add;--teal:#1d9e75;--coral:#d85a30;--amber:#ba7517;--green:#639922;
+  --r:6px;--r2:8px;--r3:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;background:var(--bg0);color:var(--t0);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;overflow:hidden;}
 #app{display:flex;height:100vh;}
-.sb{width:204px;min-width:204px;background:var(--bg1);border-right:1px solid var(--bd);display:flex;flex-direction:column;}
-.sb-logo{padding:14px 14px 10px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--t0);}
-.sb-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);}
-.sb-team{padding:12px 14px;flex-shrink:0;}
+
+/* Sidebar */
+.sb{width:200px;min-width:200px;background:var(--bg1);border-right:1px solid var(--bd);display:flex;flex-direction:column;}
+.sb-hdr{padding:14px;border-bottom:1px solid var(--bd);}
+.sb-logo{font-size:13px;font-weight:600;color:var(--t0);display:flex;align-items:center;gap:7px;}
+.sb-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sb-sect{padding:12px 14px;flex-shrink:0;}
+.sb-sect+.sb-sect{border-top:1px solid var(--bd);}
 .sb-lbl{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
 .ag-row{display:flex;align-items:center;gap:8px;padding:4px 0;}
 .av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;}
 .ag-n{font-size:12px;font-weight:500;color:var(--t0);}
 .ag-r{font-size:11px;color:var(--t1);}
-.sdot{width:6px;height:6px;border-radius:50%;background:var(--t3);margin-left:auto;flex-shrink:0;transition:background .3s;}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--bg3);margin-left:auto;flex-shrink:0;transition:background .3s;}
 .sdot.thinking{background:var(--amber);animation:bk 1s infinite;}
 .sdot.done{background:var(--teal);}
-.sdot.question{background:var(--coral);}
+.sdot.busy{background:var(--blue);animation:bk .8s infinite;}
 .sdot.gen{background:var(--purple);animation:bk .7s infinite;}
 @keyframes bk{0%,100%{opacity:1}50%{opacity:.2}}
-.sb-projs{flex:1;overflow-y:auto;padding:10px 14px;border-top:1px solid var(--bd);}
+.sb-projs{flex:1;overflow-y:auto;padding:10px 14px;}
 .sb-bot{padding:10px 14px;border-top:1px solid var(--bd);flex-shrink:0;}
-.proj-row{display:flex;align-items:center;gap:6px;padding:5px 7px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;color:var(--t1);}
+.proj-row{display:flex;align-items:center;gap:6px;padding:5px 7px;border-radius:var(--r);cursor:pointer;font-size:12px;color:var(--t1);}
 .proj-row:hover,.proj-row.cur{background:var(--bg3);color:var(--t0);}
 .proj-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.new-btn{width:100%;font-size:12px;padding:7px;background:transparent;border:1px solid var(--bd2);border-radius:var(--r-sm);color:var(--t1);cursor:pointer;font-family:inherit;}
+.new-btn{width:100%;font-size:12px;padding:7px;background:transparent;border:1px solid var(--bd2);border-radius:var(--r);color:var(--t1);cursor:pointer;font-family:inherit;}
 .new-btn:hover{border-color:var(--purple);color:var(--t0);}
+
+/* Main */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;}
 .tabbar{display:flex;align-items:center;border-bottom:1px solid var(--bd);padding:0 6px;flex-shrink:0;background:var(--bg1);}
-.tab{height:42px;padding:0 13px;font-size:13px;background:none;border:none;border-bottom:2px solid transparent;color:var(--t1);cursor:pointer;font-family:inherit;white-space:nowrap;}
+.tab{height:42px;padding:0 14px;font-size:13px;background:none;border:none;border-bottom:2px solid transparent;color:var(--t1);cursor:pointer;font-family:inherit;}
 .tab.on{color:var(--t0);border-bottom-color:var(--purple);font-weight:500;}
 .tab:disabled{opacity:.3;cursor:not-allowed;}
 .ph{font-size:11px;color:var(--t2);margin-left:auto;padding-right:10px;}
 .view{flex:1;overflow:hidden;display:none;flex-direction:column;}
 .view.on{display:flex;}
+
+/* Chat — client talks to PM only */
+.chat-wrap{display:flex;flex:1;overflow:hidden;}
 .msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;}
-.msgs::-webkit-scrollbar{width:3px;}
-.msgs::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px;}
+.msgs::-webkit-scrollbar{width:4px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:2px;}
 .mrow{display:flex;gap:9px;align-items:flex-start;}
 .mrow.u{flex-direction:row-reverse;}
-.mav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;}
-.mc{max-width:78%;min-width:0;}
+.mav{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
+.mc{max-width:76%;min-width:0;}
 .mh{font-size:11px;color:var(--t2);margin-bottom:4px;}
 .mrow.u .mh{text-align:right;}
-.mb{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r-lg);padding:10px 13px;font-size:13px;line-height:1.7;color:var(--t0);white-space:pre-wrap;word-break:break-word;}
+.mb{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r3);padding:11px 14px;font-size:13px;line-height:1.75;color:var(--t0);white-space:pre-wrap;word-break:break-word;}
 .mrow.u .mb{background:var(--bg1);border-color:var(--bd2);}
-.msg-imgs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
-.msg-img{width:80px;height:60px;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--bd2);cursor:pointer;}
-.msg-img:hover{border-color:var(--purple);}
+.mb.pm{border-left:2px solid var(--purple);}
 .tdots{display:flex;align-items:center;gap:4px;padding:10px 14px;}
 .td{width:5px;height:5px;border-radius:50%;background:var(--t2);animation:bo 1.2s infinite;}
 .td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
-@keyframes bo{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.divmsg{font-size:11px;color:var(--t2);text-align:center;padding:2px 0;}
+@keyframes bo{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+.system-msg{font-size:11px;color:var(--t2);text-align:center;padding:2px 0;font-style:italic;}
+
+/* Attachments */
+.att-grid{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;}
+.att-img{width:72px;height:54px;object-fit:cover;border-radius:var(--r);border:1px solid var(--bd2);}
+.att-file{display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--bd);border-radius:var(--r);padding:3px 8px;font-size:11px;color:var(--t1);}
+
+/* Internal team chat panel */
+.team-panel{width:260px;min-width:260px;border-left:1px solid var(--bd);background:var(--bg1);display:flex;flex-direction:column;}
+.team-panel-hdr{padding:10px 12px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.team-panel-title{font-size:12px;font-weight:500;color:var(--t1);}
+.team-msgs{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px;}
+.team-msgs::-webkit-scrollbar{width:3px;}
+.team-msgs::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:2px;}
+.tm{display:flex;gap:7px;align-items:flex-start;}
+.tm-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0;}
+.tm-body{flex:1;min-width:0;}
+.tm-hdr{font-size:10px;color:var(--t2);margin-bottom:2px;display:flex;justify-content:space-between;}
+.tm-name{color:var(--t1);font-weight:500;}
+.tm-time{font-size:9px;}
+.tm-txt{font-size:11px;line-height:1.6;color:var(--t0);white-space:pre-wrap;word-break:break-word;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);padding:7px 9px;}
+.tm-txt.thinking-dots{display:flex;gap:3px;align-items:center;padding:8px 10px;}
+.tm-dot{width:4px;height:4px;border-radius:50%;background:var(--t2);animation:bo 1.2s infinite;}
+.tm-dot:nth-child(2){animation-delay:.2s}.tm-dot:nth-child(3){animation-delay:.4s}
+
+/* Code view */
 .cv{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .ctabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--bd);background:var(--bg1);flex-shrink:0;}
 .ctabs::-webkit-scrollbar{display:none;}
@@ -73,471 +105,449 @@ html,body{height:100%;background:var(--bg0);color:var(--t0);font-family:-apple-s
 .ctab.rdy{color:var(--teal);}
 .ctab.gen{color:var(--amber);}
 .carea{flex:1;overflow-y:auto;padding:14px 16px;}
-.carea::-webkit-scrollbar{width:3px;}
-.carea::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px;}
-.cblock{border:1px solid var(--bd);border-radius:var(--r-md);overflow:hidden;}
+.carea::-webkit-scrollbar{width:4px;}
+.carea::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:2px;}
+.cblock{border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden;}
 .chdr{display:flex;align-items:center;padding:8px 12px;border-bottom:1px solid var(--bd);background:var(--bg2);gap:8px;}
 .cfn{font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:var(--t1);flex:1;}
-.code-btns{display:flex;gap:6px;}
-.cbtn{font-size:11px;padding:4px 10px;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r-sm);color:var(--t0);cursor:pointer;font-family:inherit;}
+.cbtn{font-size:11px;padding:4px 10px;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r);color:var(--t0);cursor:pointer;font-family:inherit;}
 .cbtn:hover{border-color:var(--purple);}
 pre{font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:12px;line-height:1.65;color:var(--t0);padding:14px;overflow-x:auto;white-space:pre;background:var(--bg0);margin:0;}
 .cph{text-align:center;padding:48px;color:var(--t2);font-size:13px;}
-.gind{display:flex;align-items:center;gap:8px;padding:16px;font-size:13px;color:var(--t1);}
-/* Logs */
-.logs-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.status-board{padding:12px 16px;border-bottom:1px solid var(--bd);flex-shrink:0;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
-.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r-md);padding:8px 10px;text-align:center;transition:border-color .3s;}
-.sc.active{border-color:var(--purple);}
-.sc-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;margin:0 auto 5px;}
-.sc-name{font-size:11px;font-weight:500;color:var(--t0);margin-bottom:2px;}
-.sc-role{font-size:10px;color:var(--t2);margin-bottom:5px;}
-.sc-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500;display:inline-block;}
+
+/* Logs view */
+.lv{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.log-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--bd);background:var(--bg1);flex-shrink:0;flex-wrap:wrap;}
+.lf{font-size:11px;padding:3px 10px;background:transparent;border:1px solid var(--bd2);border-radius:20px;color:var(--t1);cursor:pointer;font-family:inherit;}
+.lf.on{background:var(--purple);border-color:var(--purple);color:#fff;}
+.lexp{margin-left:auto;font-size:11px;padding:4px 12px;background:transparent;border:1px solid var(--bd2);border-radius:var(--r);color:var(--t1);cursor:pointer;font-family:inherit;}
+.lexp:hover{border-color:var(--purple);color:var(--t0);}
+.status-board{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:8px 14px;border-bottom:1px solid var(--bd);flex-shrink:0;background:var(--bg1);}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);padding:7px 8px;text-align:center;}
+.sc-init{font-size:11px;font-weight:600;margin-bottom:2px;}
+.sc-nm{font-size:9px;color:var(--t1);margin-bottom:3px;}
+.sc-badge{font-size:9px;padding:1px 6px;border-radius:20px;display:inline-block;}
 .sc-badge.idle{background:var(--bg3);color:var(--t2);}
-.sc-badge.thinking{background:rgba(186,117,23,.2);color:var(--amber);}
+.sc-badge.thinking,.sc-badge.busy{background:rgba(186,117,23,.2);color:var(--amber);}
 .sc-badge.done{background:rgba(29,158,117,.2);color:var(--teal);}
-.sc-badge.question{background:rgba(216,90,48,.2);color:var(--coral);}
 .sc-badge.gen{background:rgba(127,119,221,.2);color:var(--purple);}
-.sc-sum{font-size:10px;color:var(--t2);margin-top:5px;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
-.log-filters{padding:8px 16px;border-bottom:1px solid var(--bd);display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;background:var(--bg1);}
-.lf-btn{font-size:11px;padding:3px 10px;background:transparent;border:1px solid var(--bd2);border-radius:20px;color:var(--t1);cursor:pointer;font-family:inherit;}
-.lf-btn.on,.lf-btn:hover{border-color:var(--purple);color:var(--t0);background:rgba(127,119,221,.1);}
-.log-list{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:7px;}
-.log-list::-webkit-scrollbar{width:3px;}
-.log-list::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px;}
-.log-entry{display:flex;gap:9px;padding:8px 10px;border-radius:var(--r-md);background:var(--bg1);border:1px solid var(--bd);}
-.log-entry.hl{border-color:rgba(127,119,221,.35);}
-.le-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0;margin-top:1px;}
+.log-list{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:6px;}
+.log-list::-webkit-scrollbar{width:4px;}
+.log-list::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:2px;}
+.le{display:flex;gap:9px;padding:9px 11px;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);}
+.le.client-entry{border-left:2px solid var(--purple);}
+.le.pm-entry{border-left:2px solid #7f77dd;}
+.le.sys-entry{background:transparent;border:none;border-left:2px solid var(--bg3);padding:3px 11px;}
+.le-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0;margin-top:1px;}
 .le-body{flex:1;min-width:0;}
-.le-hdr{display:flex;align-items:center;gap:7px;margin-bottom:3px;}
+.le-meta{display:flex;gap:7px;margin-bottom:4px;align-items:center;}
 .le-name{font-size:12px;font-weight:500;color:var(--t0);}
-.le-time{font-size:11px;color:var(--t2);margin-left:auto;}
-.le-tag{font-size:10px;padding:1px 6px;border-radius:10px;background:var(--bg3);color:var(--t2);}
-.le-text{font-size:12px;color:var(--t1);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;}
-.le-text.exp{-webkit-line-clamp:unset;display:block;}
-.le-more{font-size:11px;color:var(--purple);cursor:pointer;margin-top:3px;display:inline-block;}
+.le-role{font-size:10px;color:var(--t2);}
+.le-time{font-size:10px;color:var(--t2);margin-left:auto;}
+.le-tag{font-size:9px;padding:1px 6px;border-radius:20px;background:var(--bg3);color:var(--t1);}
+.le-txt{font-size:12px;line-height:1.65;color:var(--t1);white-space:pre-wrap;word-break:break-word;}
+.le-txt.clamp{max-height:56px;overflow:hidden;position:relative;}
+.le-txt.clamp::after{content:'';position:absolute;bottom:0;left:0;right:0;height:18px;background:linear-gradient(transparent,var(--bg2));}
+.le-expand{font-size:11px;color:var(--purple);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;margin-top:3px;}
 .log-empty{text-align:center;padding:40px;color:var(--t2);font-size:13px;}
-/* Attachments */
-.att-strip{padding:8px 16px 0;display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;}
-.att-strip:empty{display:none;}
-.att-chip{display:flex;align-items:center;background:var(--bg2);border:1px solid var(--bd2);border-radius:var(--r-md);overflow:hidden;}
-.att-thumb{width:40px;height:40px;object-fit:cover;display:block;}
-.att-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg3);}
-.att-meta{padding:0 8px;}
-.att-n{font-size:11px;color:var(--t0);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.att-s{font-size:10px;color:var(--t2);}
-.att-rm{width:22px;height:22px;border-radius:50%;background:var(--bg4);border:none;color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;margin-right:6px;flex-shrink:0;}
-.att-rm:hover{background:var(--red);color:#fff;}
-/* Input area */
-.qpanel{border-top:1px solid var(--warn-bd);background:var(--warn-bg);padding:10px 16px;flex-shrink:0;}
-.qh{font-size:11px;font-weight:600;color:var(--amber);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;}
-.qi{font-size:12px;line-height:1.6;margin-bottom:4px;padding-left:10px;border-left:2px solid var(--amber);color:var(--t0);}
-.qi b{color:var(--amber);}
-.actbar{border-top:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;gap:12px;background:var(--bg1);flex-shrink:0;}
-.gbtn{font-size:13px;padding:0 16px;height:36px;background:var(--purple);border:none;border-radius:var(--r-md);color:#fff;cursor:pointer;font-family:inherit;font-weight:500;}
+
+/* Bottom */
+.actbar{border-top:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;gap:10px;background:var(--bg1);flex-shrink:0;}
+.gbtn{font-size:13px;padding:0 16px;height:36px;background:var(--purple);border:none;border-radius:var(--r2);color:#fff;cursor:pointer;font-family:inherit;font-weight:500;}
 .gbtn:hover{opacity:.85;}
 .gbtn:disabled{opacity:.4;cursor:not-allowed;}
-.inparea{border-top:1px solid var(--bd);padding:10px 16px;display:flex;gap:8px;align-items:flex-end;flex-shrink:0;background:var(--bg1);}
-.inparea.drag-over{border-top-color:var(--purple);background:rgba(127,119,221,.05);}
-textarea{flex:1;resize:none;height:52px;font-size:13px;background:var(--bg2);border:1px solid var(--bd2);border-radius:var(--r-md);color:var(--t0);padding:10px 12px;font-family:inherit;outline:none;}
+.inparea{border-top:1px solid var(--bd);padding:10px 16px;display:flex;flex-direction:column;gap:7px;flex-shrink:0;background:var(--bg1);}
+.att-preview{display:flex;flex-wrap:wrap;gap:5px;}
+.att-chip{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--bd2);border-radius:20px;padding:3px 9px 3px 5px;font-size:11px;color:var(--t0);}
+.att-chip img{width:16px;height:16px;object-fit:cover;border-radius:3px;}
+.att-chip-rm{background:none;border:none;color:var(--t2);cursor:pointer;font-size:12px;padding:0;line-height:1;margin-left:2px;}
+.att-chip-rm:hover{color:var(--coral);}
+.inp-row{display:flex;gap:7px;align-items:flex-end;}
+textarea{flex:1;resize:none;height:48px;font-size:13px;background:var(--bg2);border:1px solid var(--bd2);border-radius:var(--r2);color:var(--t0);padding:10px 12px;font-family:inherit;outline:none;}
 textarea::placeholder{color:var(--t2);}
 textarea:focus{border-color:var(--purple);}
-.sbtn{height:38px;padding:0 16px;font-size:13px;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r-md);color:var(--t0);cursor:pointer;font-family:inherit;white-space:nowrap;}
+.attach-btn{height:36px;width:36px;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r2);color:var(--t1);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.attach-btn:hover{border-color:var(--purple);color:var(--t0);}
+.sbtn{height:36px;padding:0 16px;font-size:13px;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r2);color:var(--t0);cursor:pointer;font-family:inherit;white-space:nowrap;}
 .sbtn:hover{border-color:var(--purple);}
 .sbtn:disabled{opacity:.4;cursor:not-allowed;}
-.upbtn{width:38px;height:38px;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r-md);color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.upbtn:hover{border-color:var(--purple);color:var(--t0);}
-#file-input{display:none;}
-.welcome{text-align:center;padding:48px 32px;margin:auto;max-width:420px;}
-.wi{font-size:36px;margin-bottom:14px;}
-.wt{font-size:17px;font-weight:600;color:var(--t0);margin-bottom:10px;}
-.ws{font-size:13px;line-height:1.75;color:var(--t1);}
-.we{margin-top:20px;display:flex;flex-direction:column;gap:6px;}
-.we-item{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r-md);padding:9px 12px;font-size:12px;color:var(--t1);text-align:left;cursor:pointer;}
+
+/* Welcome */
+.welcome{text-align:center;padding:50px 32px;margin:auto;max-width:440px;}
+.wi{font-size:38px;margin-bottom:14px;}
+.wt{font-size:18px;font-weight:600;color:var(--t0);margin-bottom:10px;}
+.ws{font-size:13px;line-height:1.8;color:var(--t1);margin-bottom:20px;}
+.we{display:flex;flex-direction:column;gap:6px;}
+.we-item{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);padding:9px 13px;font-size:13px;color:var(--t1);text-align:left;cursor:pointer;}
 .we-item:hover{border-color:var(--purple);color:var(--t0);}
-#lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;cursor:zoom-out;}
-#lightbox.on{display:flex;}
-#lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:var(--r-md);}
 </style>
 </head>
 <body>
 <div id="app">
+  <!-- Sidebar -->
   <div class="sb">
-    <div class="sb-logo"><div class="sb-logo-dot"></div>AI Dev Team</div>
-    <div class="sb-team">
+    <div class="sb-hdr"><div class="sb-logo"><div class="sb-logo-dot"></div>AI Dev Team</div></div>
+    <div class="sb-sect">
       <div class="sb-lbl">Team</div>
       <div id="alist"></div>
     </div>
-    <div class="sb-projs">
+    <div class="sb-projs sb-sect" style="flex:1;overflow-y:auto;border-top:1px solid var(--bd);">
       <div class="sb-lbl">Projects</div>
       <div id="plist"><div style="font-size:12px;color:var(--t2)">No projects yet</div></div>
     </div>
     <div class="sb-bot"><button class="new-btn" onclick="newProj()">+ New project</button></div>
   </div>
 
+  <!-- Main -->
   <div class="main">
     <div class="tabbar">
-      <button class="tab on" id="t-plan" onclick="swTab('plan')">Planning</button>
+      <button class="tab on" id="t-chat" onclick="swTab('chat')">Chat with PM</button>
       <button class="tab" id="t-code" onclick="swTab('code')" disabled>Code Files</button>
-      <button class="tab" id="t-logs" onclick="swTab('logs')">Logs &amp; Status</button>
+      <button class="tab" id="t-logs" onclick="swTab('logs')">Activity Logs</button>
       <span class="ph" id="phbadge">Ready</span>
     </div>
 
-    <div class="view on" id="v-plan">
-      <div class="msgs" id="msgs">
-        <div class="welcome">
-          <div class="wi">🖥️</div>
-          <div class="wt">Your AI dev team is ready</div>
-          <div class="ws">Describe your project and attach wireframes, mockups, or reference images — the whole team will see them.</div>
-          <div class="we">
-            <div class="we-item" onclick="useEx(this)">📱 A subscription recipe app with meal planning and grocery lists</div>
-            <div class="we-item" onclick="useEx(this)">💼 A SaaS invoicing tool for freelancers with client portals</div>
-            <div class="we-item" onclick="useEx(this)">🏠 A real-estate platform with agent dashboards and listings</div>
+    <!-- Chat view: client ↔ PM + internal team panel -->
+    <div class="view on" id="v-chat">
+      <div class="chat-wrap">
+        <!-- Client ↔ PM messages -->
+        <div class="msgs" id="msgs">
+          <div class="welcome" id="welcome">
+            <div class="wi">👋</div>
+            <div class="wt">Hi! I'm Priya, your Project Manager.</div>
+            <div class="ws">Tell me in plain English what you'd like to build — a website, an app, anything. I'll handle all the technical decisions and coordinate with the team on your behalf. No jargon, no complicated questions.</div>
+            <div class="we">
+              <div class="we-item" onclick="useEx(this)">📱 I want an app where people can share and discover recipes</div>
+              <div class="we-item" onclick="useEx(this)">💼 I need a simple website to showcase my freelance work</div>
+              <div class="we-item" onclick="useEx(this)">🛒 I want an online store to sell handmade products</div>
+            </div>
+          </div>
+        </div>
+        <!-- Internal team communications panel -->
+        <div class="team-panel">
+          <div class="team-panel-hdr">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--amber)"></div>
+            <span class="team-panel-title">Internal team comms</span>
+          </div>
+          <div class="team-msgs" id="team-msgs">
+            <div style="font-size:11px;color:var(--t2);text-align:center;padding:20px 8px;">Team communications will appear here as the PM briefs each specialist.</div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Code view -->
     <div class="view" id="v-code">
       <div class="cv">
         <div class="ctabs" id="ctabs"></div>
-        <div class="carea" id="carea"><div class="cph">Run planning first, then click "Generate Code"</div></div>
+        <div class="carea" id="carea"><div class="cph">Code files will appear here after planning is complete.</div></div>
       </div>
     </div>
 
+    <!-- Logs view -->
     <div class="view" id="v-logs">
-      <div class="logs-wrap">
-        <div class="status-board" id="sboard"></div>
-        <div class="log-filters" id="lfilters">
-          <button class="lf-btn on" data-f="all" onclick="filterLogs('all',this)">All</button>
+      <div class="lv">
+        <div class="status-board" id="status-board"></div>
+        <div class="log-bar">
+          <button class="lf on" onclick="filterLog('all',this)">All</button>
+          <button class="lf" onclick="filterLog('client',this)">You</button>
+          <button class="lf" onclick="filterLog('pm',this)">Priya (PM)</button>
+          <button class="lf" onclick="filterLog('team',this)">Team only</button>
+          <button class="lexp" onclick="exportLogs()">Export ↓</button>
         </div>
-        <div class="log-list" id="llist"><div class="log-empty">No activity yet — start a project to see logs here.</div></div>
+        <div class="log-list" id="log-list"><div class="log-empty">No activity yet.</div></div>
       </div>
     </div>
 
-    <div id="qpanel" style="display:none" class="qpanel">
-      <div class="qh">Questions from the team — reply below</div>
-      <div id="qlist"></div>
-    </div>
-
+    <!-- Action bar -->
     <div id="actbar" style="display:none" class="actbar">
-      <button class="gbtn" id="gbtn" onclick="startCodeGen()">Generate 5 starter files ↗</button>
-      <span style="font-size:12px;color:var(--t1)">Planning complete · server, DB, frontend, auth, tests</span>
+      <button class="gbtn" id="gbtn" onclick="startCodeGen()">Generate starter code ↗</button>
+      <span style="font-size:12px;color:var(--t1)" id="actbar-msg">Planning complete</span>
     </div>
 
-    <div class="att-strip" id="astrip"></div>
-
-    <div class="inparea" id="inparea">
-      <button class="upbtn" onclick="G('finput').click()" title="Attach images or files">📎</button>
-      <input type="file" id="finput" multiple accept="image/*,.txt,.md" onchange="handleFiles(this.files)"/>
-      <textarea id="inp" placeholder="Describe what you want to build... (or drag & drop images here)"></textarea>
-      <button class="sbtn" id="sbtn" onclick="go()">Brief the team ↗</button>
+    <!-- Input -->
+    <div class="inparea">
+      <div class="att-preview" id="att-preview" style="display:none"></div>
+      <div class="inp-row">
+        <textarea id="inp" placeholder="Tell Priya what you'd like to build or ask anything…"></textarea>
+        <div style="display:flex;gap:6px;align-items:flex-end">
+          <button class="attach-btn" onclick="G('finput').click()" title="Attach image or file">📎</button>
+          <button class="sbtn" id="sbtn" onclick="go()">Send ↗</button>
+        </div>
+      </div>
+      <input type="file" id="finput" accept="image/*,.pdf,.txt,.md" multiple style="display:none" onchange="handleFiles(this.files)"/>
     </div>
   </div>
 </div>
 
-<div id="lightbox" onclick="G('lightbox').classList.remove('on')">
-  <img id="lbimg" src=""/>
-</div>
-
 <script>
 const AGENTS=[
-  {id:'orchestrator',name:'Priya',role:'PM',init:'PM',c:'#7f77dd',bg:'rgba(127,119,221,.18)'},
-  {id:'backend',name:'Alex',role:'Backend',init:'BE',c:'#378add',bg:'rgba(55,138,221,.18)'},
-  {id:'dba',name:'Riley',role:'DBA',init:'DB',c:'#1d9e75',bg:'rgba(29,158,117,.18)'},
-  {id:'frontend',name:'Sam',role:'Frontend',init:'FE',c:'#d85a30',bg:'rgba(216,90,48,.18)'},
-  {id:'security',name:'Morgan',role:'Security',init:'SE',c:'#ba7517',bg:'rgba(186,117,23,.18)'},
-  {id:'qa',name:'Jordan',role:'QA',init:'QA',c:'#639922',bg:'rgba(99,153,34,.18)'},
+  {id:'pm',name:'Priya',role:'Project Manager',init:'PM',c:'#7f77dd',bg:'rgba(127,119,221,.18)'},
+  {id:'backend',name:'Alex',role:'Backend Dev',init:'BE',c:'#378add',bg:'rgba(55,138,221,.15)'},
+  {id:'dba',name:'Riley',role:'DBA',init:'DB',c:'#1d9e75',bg:'rgba(29,158,117,.15)'},
+  {id:'frontend',name:'Sam',role:'Frontend Dev',init:'FE',c:'#d85a30',bg:'rgba(216,90,48,.15)'},
+  {id:'security',name:'Morgan',role:'Security',init:'SE',c:'#ba7517',bg:'rgba(186,117,23,.15)'},
+  {id:'qa',name:'Jordan',role:'QA',init:'QA',c:'#639922',bg:'rgba(99,153,34,.15)'},
 ];
-const FDEFS=[
+
+const FILES=[
   {aid:'backend',file:'server.js'},
   {aid:'dba',file:'schema.sql'},
   {aid:'frontend',file:'App.jsx'},
   {aid:'security',file:'auth.js'},
   {aid:'qa',file:'app.test.js'},
 ];
-const PLAN={
-orchestrator:`You are Priya, Project Manager of a software dev team:
-- Alex (Backend): REST APIs, Node.js, cloud
-- Riley (DBA): PostgreSQL, schema design
-- Sam (Frontend): React, UX, TypeScript
-- Morgan (Security): Auth, OWASP, compliance
-- Jordan (QA): Testing, CI/CD
 
-The client may share wireframes, mockups, screenshots, or reference images. Analyze all provided materials carefully.
+// ── SYSTEM PROMPTS ──
 
-Respond in this EXACT format:
+const PM_INTAKE = `You are Priya, a highly experienced and friendly Project Manager. You are talking directly to a non-technical client.
 
-📋 PROJECT SUMMARY
-[2-3 sentences, referencing any visual materials if provided]
+Your job in this FIRST response:
+1. Warmly acknowledge what they want to build
+2. Identify the simplest, cheapest way to build it — always prefer free tools (HTML/CSS/JS on GitHub Pages, or free Vercel tier)
+3. Ask MAXIMUM 2 simple, plain-English questions to understand their vision better — things like who the users are, do they need user accounts, any specific look/feel they want
+4. NEVER ask technical questions — no questions about databases, APIs, frameworks, hosting, languages
+5. Keep your tone warm, encouraging, and jargon-free
+6. If the request is something simple (portfolio site, landing page, info website) — say so! Tell them "great news, this can be built as a simple website at zero cost"
 
-🎯 TEAM TASKS
-**Alex (Backend):** [specific task]
-**Riley (DBA):** [specific task]
-**Sam (Frontend):** [specific task — mention wireframes if relevant]
-**Morgan (Security):** [specific task]
-**Jordan (QA):** [specific task]
+Examples of good questions:
+- "Who will be using this — just you, or will there be other people signing up?"
+- "Do you have any websites you like the look of that we could take inspiration from?"
+- "Will people need to log in, or is it open for anyone to browse?"
 
-❓ QUESTIONS FOR CLIENT
-[numbered questions, or: None — team is ready to proceed!]`,
-backend:`You are Alex, senior Backend Developer. Expertise: REST/GraphQL, Node.js, Python, microservices, Redis.
-The client may have shared wireframes or reference images — consider them in your analysis.
-Respond:
+Examples of BAD questions (never ask these):
+- "What database would you prefer?"
+- "Should we use REST or GraphQL?"
+- "What framework do you want?"
 
-🔧 ARCHITECTURE
-[Tech stack and design — 2 sentences]
+Start with a friendly greeting and keep it conversational.`;
 
-🔌 KEY ENDPOINTS
-[4-6 main API endpoints]
+const PM_BRIEF_TEAM = `You are Priya, Project Manager. You have understood the client's requirements. Now write a clear internal technical brief for your dev team.
 
-⚠️ TECHNICAL NOTES
-[Key decisions or risks]
+Be specific and technical here — your audience is developers, not the client.
 
-If you need input:
-❓ MY QUESTIONS
-[one per line]
-150-200 words.`,
-dba:`You are Riley, DBA. Expertise: PostgreSQL, MongoDB, Redis, schema design.
-Respond:
+Format:
+🎯 PROJECT GOAL
+[What we're building and why]
 
-🗄️ DATABASE CHOICE
-[DB and reasoning]
+💡 RECOMMENDED STACK
+[Choose the simplest stack that works. For simple sites: plain HTML/CSS/JS on GitHub Pages (free). For apps needing backend: Node.js + Express + Vercel (free tier). For data: PostgreSQL on Supabase free tier. Justify your choice.]
 
-📊 CORE SCHEMA
-[Key tables with main fields]
+📋 REQUIREMENTS
+[Detailed functional requirements]
 
-📈 PERFORMANCE NOTES
-[Indexes and scaling]
+👤 USERS & AUTH
+[Who uses it, do they need accounts?]
 
-If you need input:
-❓ MY QUESTIONS
-[one per line]
-150-200 words.`,
-frontend:`You are Sam, senior Frontend Developer. Expertise: React, Next.js, TypeScript, Tailwind.
-The client may have shared wireframes or mockups — describe how you will implement them.
-Respond:
+🚫 CONSTRAINTS  
+[Budget: free/low cost. Keep it simple. No over-engineering.]
 
-🎨 TECH STACK
-[Framework and approach]
+📌 DELIVERABLES
+[What each team member should produce]`;
+
+const PM_RESPOND_CLIENT = `You are Priya, Project Manager. You just briefed your dev team and received their technical input. Now summarize everything for the client in plain, friendly language.
+
+Rules:
+- NEVER use technical jargon (no REST, API, PostgreSQL, Node.js, JWT etc.) unless you immediately explain it in brackets
+- Tell them WHAT will be built, not HOW
+- Tell them what it will cost to run (aim for free options)
+- Tell them roughly how long it would take a developer to build
+- If there are options, present them simply: "Option A (simpler, free) vs Option B (more features, small monthly cost)"
+- Ask maximum 1 simple follow-up question if absolutely needed
+- Be warm, confident, and reassuring
+- End with: what happens next (generating the starter code)`;
+
+const PM_FOLLOWUP = `You are Priya, Project Manager, talking to a non-technical client. They have replied to your message.
+
+If they answered your questions: thank them, confirm you have everything, tell them you're now briefing the team, and wish them well.
+If they asked a question: answer it in plain English, no jargon.
+If they raised a concern: address it reassuringly.
+
+Keep it SHORT — 2-4 sentences max. Warm and friendly.`;
+
+const TEAM_PROMPTS = {
+backend: `You are Alex, Backend Developer. Your PM Priya has given you a project brief. Respond with your technical plan:
+
+🔧 TECH CHOICE & WHY
+[Choose simplest option. If no backend needed, say so clearly.]
+
+🔌 API ROUTES (if needed)
+[List key endpoints]
+
+☁️ HOSTING
+[Vercel free tier / GitHub Pages / etc.]
+
+⚠️ GOTCHAS
+[Any complexity to watch for]
+
+Be specific. Flag if something is unnecessary complexity.`,
+
+dba: `You are Riley, Database Administrator. Review the PM's brief and respond:
+
+🗄️ DATA NEEDS
+[Does this actually need a database? If it's a simple site, say NO DATABASE NEEDED.]
+
+📊 SCHEMA (if needed)
+[Key tables/collections only if required]
+
+🆓 FREE OPTION
+[Supabase free tier, or localStorage for simple cases]
+
+Keep it minimal. Don't over-engineer.`,
+
+frontend: `You are Sam, Frontend Developer and UI designer. Review the PM's brief:
+
+🎨 APPROACH
+[Simple HTML/CSS/JS? React? What's simplest for this project?]
 
 🖥️ KEY SCREENS
-[4-6 screens/components — reference visuals if provided]
+[List screens/pages needed]
 
-✨ UX NOTES
-[Design decisions and patterns]
+✨ DESIGN NOTES
+[Style approach, responsive, accessibility]
 
-If you need input:
-❓ MY QUESTIONS
-[one per line]
-150-200 words.`,
-security:`You are Morgan, Security Engineer. Expertise: OAuth2, JWT, OWASP Top 10, encryption.
-Respond:
+📦 DEPENDENCIES
+[Keep to minimum. Can it be done with zero npm packages?]`,
 
-🔐 AUTH STRATEGY
-[Auth and authz approach]
+security: `You are Morgan, Security Engineer. Review the PM's brief:
 
-🛡️ SECURITY CONTROLS
-[4-6 specific measures]
+🔐 AUTH NEEDED?
+[Yes or No — and why. Don't add auth if the project doesn't need it.]
 
-🚨 TOP RISKS
-[2-3 project-specific risks]
+🛡️ ESSENTIALS ONLY
+[List only the security measures actually needed for this project's scale]
 
-If you need input:
-❓ MY QUESTIONS
-[one per line]
-150-200 words.`,
-qa:`You are Jordan, QA Engineer. Expertise: Jest, Cypress, Playwright, API testing, CI/CD.
-Respond:
+🆓 FREE SECURITY TOOLS
+[What free options exist for what's needed]`,
 
-🧪 TEST STRATEGY
-[Unit, integration, e2e approach]
+qa: `You are Jordan, QA Engineer. Review the PM's brief:
 
-✅ KEY TEST SCENARIOS
-[4-6 critical test cases]
+🧪 TESTING APPROACH
+[Manual testing steps vs automated — what's appropriate for this scale?]
 
-🔁 CI/CD INTEGRATION
-[Pipeline integration]
+✅ KEY THINGS TO TEST
+[3-5 most important user flows to verify]
 
-If you need input:
-❓ MY QUESTIONS
-[one per line]
-150-200 words.`,
-followup:`You are Priya, PM. Client answered team questions. Acknowledge in 2-3 sentences, flag changes with ⚠️, confirm team can proceed. Max 4 sentences.`
-};
-const CODE={
-backend:`You are Alex. Generate a Node.js + Express starter server based on this plan.
-Output ONLY raw JavaScript — no markdown fences, no prose. Include: requires, express/cors/body-parser setup, 5-6 API routes with // TODO: comments, error handler, app.listen.
-Max 90 lines. First line: // server.js — [Project Name] API Server`,
-dba:`You are Riley. Generate a PostgreSQL schema based on this plan.
-Output ONLY raw SQL — no markdown fences. Include: DROP TABLE IF EXISTS (CASCADE), CREATE TABLE for 3-4 entities, primary/foreign keys, 3-4 CREATE INDEX statements, -- comments.
-Max 70 lines. First line: -- schema.sql — [Project Name] Database`,
-frontend:`You are Sam. Generate a React App.jsx starter based on this plan.
-Output ONLY raw JSX — no markdown fences. Include: React imports, inline Nav, main App with state, screen placeholders with // PAGE: comments, fetch calls.
-Max 90 lines. First line: // App.jsx — [Project Name] Frontend`,
-security:`You are Morgan. Generate Express.js security middleware based on this plan.
-Output ONLY raw JavaScript — no markdown fences. Include: JWT verify middleware, rate-limit config, input sanitizer, CORS options, security headers, role check. Export all.
-Max 75 lines. First line: // auth.js — Security & Auth Middleware`,
-qa:`You are Jordan. Generate a Jest + Supertest test file based on this plan.
-Output ONLY raw JavaScript — no markdown fences. Include: supertest + app imports, jest.mock for DB, beforeAll/afterAll, describe/test blocks, happy path + errors.
-Max 90 lines. First line: // app.test.js — [Project Name] Test Suite`
+🚀 LAUNCH CHECKLIST
+[Simple pre-launch checks]`
 };
 
-// State
-let st={phase:'idle',projId:null,brief:'',planCtx:'',agOut:{},qs:[],dels:{},activeCode:'backend',logFilter:'all'};
-let chatHist=[],elog=[],atts=[];
+const CODE_PROMPTS = {
+backend:`You are Alex. Generate a clean Node.js + Express starter server for this project. Output ONLY raw JavaScript, no markdown. Include: setup, 4-5 key routes with // TODO comments, error handler, app.listen. Max 80 lines. First line comment: // server.js`,
+dba:`You are Riley. Generate a PostgreSQL schema or, if no DB is needed, output a helpful comment explaining why and suggest localStorage alternatives. Output ONLY raw SQL or JS comments. Max 60 lines. First line: -- schema.sql`,
+frontend:`You are Sam. Generate a clean HTML/CSS/JS or React starter for this project. Output ONLY raw code, no markdown. Make it look polished. First line comment: // App.jsx or <!-- index.html -->`,
+security:`You are Morgan. Generate auth middleware or, if no auth needed, output a security checklist as comments. Output ONLY raw JavaScript. Max 60 lines. First line: // auth.js`,
+qa:`You are Jordan. Generate a simple test file or launch checklist. Output ONLY raw JavaScript or Markdown checklist. Max 60 lines. First line: // app.test.js`
+};
 
+// ── State ──
 const G=id=>document.getElementById(id);
+let st={phase:'idle',projId:null,brief:'',planCtx:'',dels:{},activeCode:'backend'};
+let chatLog=[];  // client-visible messages
+let teamLog=[];  // internal team messages
+let allLogs=[];  // everything for activity tab
+let atts=[];
+let agStatus={};
+let logFilter='all';
+
 const ag=id=>AGENTS.find(a=>a.id===id);
-const ts=()=>new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const ts=()=>new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 
+// ── Team status ──
 function setDot(id,s){
-  const d=G(`d-${id}`);if(d)d.className=`sdot ${s}`;
-  const b=G(`scb-${id}`);
-  if(b){const m={idle:'Idle',thinking:'Working…',done:'Done',question:'Has questions',gen:'Generating…'};b.className=`sc-badge ${s}`;b.textContent=m[s]||s;}
-  const c=G(`sc-${id}`);if(c)c.className=`sc${s==='thinking'||s==='gen'?' active':''}`;
+  agStatus[id]=s;
+  const d=G(`d-${id}`); if(d) d.className=`sdot ${s}`;
+  renderStatusBoard();
 }
-function setSum(id,txt){const e=G(`scsum-${id}`);if(!e)return;const lines=txt.split('\n').map(l=>l.trim()).filter(l=>l&&l.length>2);e.textContent=(lines[1]||lines[0]||'').slice(0,80);}
+function renderStatusBoard(){
+  G('status-board').innerHTML=AGENTS.map(a=>{
+    const s=agStatus[a.id]||'idle';
+    return `<div class="sc"><div class="sc-init" style="color:${a.c}">${a.init}</div><div class="sc-nm">${a.name}</div><div class="sc-badge ${s}">${s}</div></div>`;
+  }).join('');
+}
 
+// ── Sidebar ──
 function renderTeam(){
-  G('alist').innerHTML=AGENTS.map(a=>`<div class="ag-row"><div class="av" style="background:${a.bg};color:${a.c}">${a.init}</div><div><div class="ag-n">${a.name}</div><div class="ag-r">${a.role}</div></div><div class="sdot" id="d-${a.id}"></div></div>`).join('');
-}
-function renderBoard(){
-  G('sboard').innerHTML=AGENTS.map(a=>`<div class="sc" id="sc-${a.id}"><div class="sc-av" style="background:${a.bg};color:${a.c}">${a.init}</div><div class="sc-name">${a.name}</div><div class="sc-role">${a.role}</div><span class="sc-badge idle" id="scb-${a.id}">Idle</span><div class="sc-sum" id="scsum-${a.id}"></div></div>`).join('');
-}
-
-// Logs
-function addLog(aid,type,content,sum){
-  const e={id:`${Date.now()}${Math.random()}`,ts:ts(),aid,type,content,sum:sum||content.slice(0,80),exp:false};
-  elog.push(e);
-  if(st.logFilter==='all'||st.logFilter===aid) appendLogEntry(e);
-  ensureFilter(aid);
-}
-function ensureFilter(aid){
-  if(!aid||aid==='system') return;
-  const bar=G('lfilters');
-  if(bar.querySelector(`[data-f="${aid}"]`)) return;
-  const a=aid==='user'?{name:'You (Client)'}:ag(aid);
-  if(!a) return;
-  const b=document.createElement('button');
-  b.className='lf-btn';b.dataset.f=aid;b.textContent=a.name;
-  b.onclick=()=>filterLogs(aid,b);
-  bar.appendChild(b);
-}
-function appendLogEntry(e){
-  const list=G('llist');
-  const empty=list.querySelector('.log-empty');if(empty)empty.remove();
-  const a=e.aid==='user'?{name:'You',init:'U',c:'var(--t1)',bg:'var(--bg3)'}:(ag(e.aid)||{name:'System',init:'SY',c:'var(--t2)',bg:'var(--bg3)'});
-  const tags={message:'msg',file_upload:'file',code_gen:'codegen',question:'question',status:'status'};
-  const d=document.createElement('div');
-  d.className=`log-entry${e.type==='file_upload'?' hl':''}`;d.id=`le-${e.id}`;
-  d.innerHTML=`<div class="le-av" style="background:${a.bg};color:${a.c}">${a.init}</div>
-    <div class="le-body">
-      <div class="le-hdr"><span class="le-name">${a.name}</span><span class="le-tag">${tags[e.type]||e.type}</span><span class="le-time">${e.ts}</span></div>
-      <div class="le-text" id="lt-${e.id}">${esc(e.sum)}</div>
-      ${e.content.length>80?`<span class="le-more" onclick="toggleLog('${e.id}')">Show more ↓</span>`:''}
-    </div>`;
-  list.appendChild(d);list.scrollTop=list.scrollHeight;
-}
-function toggleLog(id){
-  const e=elog.find(x=>x.id===id);if(!e)return;
-  e.exp=!e.exp;
-  const el=G(`lt-${e.id}`);if(el)el.textContent=e.exp?e.content:e.sum;
-  const btn=el?.nextElementSibling;if(btn)btn.textContent=e.exp?'Show less ↑':'Show more ↓';
-}
-function filterLogs(f,btn){
-  st.logFilter=f;
-  document.querySelectorAll('.lf-btn').forEach(b=>b.classList.remove('on'));
-  if(btn)btn.classList.add('on');
-  const list=G('llist');list.innerHTML='';
-  const filtered=f==='all'?elog:elog.filter(e=>e.aid===f);
-  if(!filtered.length){list.innerHTML='<div class="log-empty">No entries for this filter.</div>';return;}
-  filtered.forEach(e=>appendLogEntry(e));
-}
-function rebuildLogs(){G('llist').innerHTML='';(st.logFilter==='all'?elog:elog.filter(e=>e.aid===st.logFilter)).forEach(e=>appendLogEntry(e));}
-
-// Tabs
-function swTab(t){
-  ['plan','code','logs'].forEach(id=>{G(`t-${id}`).className=`tab${t===id?' on':''}`;G(`v-${id}`).className=`view${t===id?' on':''}`;});
-  if(t==='logs')rebuildLogs();
+  G('alist').innerHTML=AGENTS.map(a=>`
+    <div class="ag-row">
+      <div class="av" style="background:${a.bg};color:${a.c}">${a.init}</div>
+      <div><div class="ag-n">${a.name}</div><div class="ag-r">${a.role}</div></div>
+      <div class="sdot" id="d-${a.id}"></div>
+    </div>`).join('');
+  AGENTS.forEach(a=>{ agStatus[a.id]='idle'; });
+  renderStatusBoard();
 }
 
-// Code
-function renderCodeTabs(){
-  G('ctabs').innerHTML=FDEFS.map(f=>`<button class="ctab${f.aid===st.activeCode?' on':''} ${st.dels[f.aid]?'rdy':''}" id="ct-${f.aid}" onclick="showCode('${f.aid}')">${f.file}${st.dels[f.aid]?' ✓':''}</button>`).join('');
-  showCode(st.activeCode);
-}
-function showCode(aid){
-  st.activeCode=aid;
-  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));
-  const t=G(`ct-${aid}`);if(t)t.classList.add('on');
-  const area=G('carea');const code=st.dels[aid];const fi=FDEFS.find(f=>f.aid===aid);
-  if(code===null){area.innerHTML=`<div class="gind"><div class="td"></div><div class="td"></div><div class="td"></div>&nbsp;Writing ${fi?.file}…</div>`;return;}
-  if(!code){area.innerHTML=`<div class="cph">This file will appear here after generation</div>`;return;}
-  area.innerHTML=`<div class="cblock"><div class="chdr"><span class="cfn">${fi?.file}</span><div class="code-btns"><button class="cbtn" onclick="copyCode('${aid}')">Copy</button><button class="cbtn" onclick="dlCode('${aid}')">Download</button></div></div><pre>${esc(code)}</pre></div>`;
-}
-function copyCode(aid){navigator.clipboard.writeText(st.dels[aid]).catch(()=>{});const b=event.target;b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',2000);}
-function dlCode(aid){const fi=FDEFS.find(f=>f.aid===aid);const blob=new Blob([st.dels[aid]],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=fi.file;a.click();URL.revokeObjectURL(url);}
-
-// Storage
+// ── Storage ──
 function saveProj(){
-  if(!st.projId)return;
+  if(!st.projId) return;
   try{
-    const data={brief:st.brief,planCtx:st.planCtx,chat:chatHist,dels:st.dels,logs:elog.map(e=>({...e,content:e.content.slice(0,400)})),ts:Date.now()};
-    localStorage.setItem(`dt:p:${st.projId}`,JSON.stringify(data));
-    let list=[];try{list=JSON.parse(localStorage.getItem('dt:list')||'[]');}catch(e){}
+    localStorage.setItem(`dtp:${st.projId}`,JSON.stringify({brief:st.brief,planCtx:st.planCtx,chatLog,teamLog,allLogs,dels:st.dels,ts:Date.now()}));
+    let list=[];
+    try{list=JSON.parse(localStorage.getItem('dtp:list')||'[]');}catch(e){}
     const idx=list.findIndex(p=>p.id===st.projId);
-    const entry={id:st.projId,name:st.brief.slice(0,38)+(st.brief.length>38?'…':''),ts:Date.now()};
+    const entry={id:st.projId,name:st.brief.slice(0,40)+(st.brief.length>40?'…':''),ts:Date.now()};
     if(idx>=0)list[idx]=entry;else list.unshift(entry);
-    localStorage.setItem('dt:list',JSON.stringify(list.slice(0,8)));
+    localStorage.setItem('dtp:list',JSON.stringify(list.slice(0,8)));
     renderProjList(list.slice(0,8));
   }catch(e){}
 }
-function renderProjList(list){G('plist').innerHTML=(!list||!list.length)?'<div style="font-size:12px;color:var(--t2)">No projects yet</div>':list.map(p=>`<div class="proj-row ${p.id===st.projId?'cur':''}" onclick="openProj('${p.id}')"><span>📁</span><span title="${p.name}">${p.name}</span></div>`).join('');}
-function loadProjList(){try{renderProjList(JSON.parse(localStorage.getItem('dt:list')||'[]'));}catch(e){}}
+function renderProjList(list){
+  G('plist').innerHTML=(!list||!list.length)?'<div style="font-size:12px;color:var(--t2)">No projects yet</div>':list.map(p=>`<div class="proj-row ${p.id===st.projId?'cur':''}" onclick="openProj('${p.id}')"><span>📁</span><span title="${p.name}">${p.name}</span></div>`).join('');
+}
+function loadProjList(){try{renderProjList(JSON.parse(localStorage.getItem('dtp:list')||'[]'));}catch(e){}}
 function openProj(id){
   try{
-    const data=JSON.parse(localStorage.getItem(`dt:p:${id}`)||'null');if(!data)return;
-    st.projId=id;st.brief=data.brief;st.planCtx=data.planCtx||'';st.dels=data.dels||{};
-    chatHist=data.chat||[];elog=data.logs||[];
+    const data=JSON.parse(localStorage.getItem(`dtp:${id}`)||'null');
+    if(!data) return;
+    st.projId=id;st.brief=data.brief;st.planCtx=data.planCtx||'';
+    st.dels=data.dels||{};chatLog=data.chatLog||[];teamLog=data.teamLog||[];allLogs=data.allLogs||[];
     st.phase=Object.keys(st.dels).length?'done':'done-plan';
-    G('msgs').innerHTML='';chatHist.forEach(m=>addMsgRaw(m.aid,m.txt,m.u,m.imgs||[]));
-    G('qpanel').style.display='none';
-    if(st.phase!=='idle'){G('actbar').style.display='flex';G('phbadge').textContent='Planning complete';}
+    G('msgs').innerHTML='';
+    chatLog.forEach(m=>renderChatMsg(m));
+    G('team-msgs').innerHTML='';
+    teamLog.forEach(m=>renderTeamMsg(m));
+    if(st.phase!=='idle'){G('actbar').style.display='flex';}
     if(Object.keys(st.dels).length){G('t-code').disabled=false;renderCodeTabs();}
-    document.querySelectorAll('.proj-row').forEach(el=>el.classList.remove('cur'));
-    event.target.closest?.('.proj-row')?.classList.add('cur');
     AGENTS.forEach(a=>setDot(a.id,st.dels[a.id]?'done':'idle'));
-    rebuildLogs();
+    renderLogList();
+    document.querySelectorAll('.proj-row').forEach(el=>el.classList.remove('cur'));
+    event.target.closest('.proj-row')?.classList.add('cur');
   }catch(e){}
 }
 function newProj(){
-  st={phase:'idle',projId:null,brief:'',planCtx:'',agOut:{},qs:[],dels:{},activeCode:'backend',logFilter:'all'};
-  chatHist=[];elog=[];atts=[];
-  G('msgs').innerHTML=`<div class="welcome"><div class="wi">🖥️</div><div class="wt">New project</div><div class="ws">Describe your app and attach wireframes or reference images.</div></div>`;
-  G('qpanel').style.display='none';G('actbar').style.display='none';G('t-code').disabled=true;
-  G('phbadge').textContent='Ready';G('sbtn').textContent='Brief the team ↗';
-  G('inp').placeholder='Describe what you want to build...';
-  G('astrip').innerHTML='';G('llist').innerHTML='<div class="log-empty">No activity yet.</div>';
-  G('lfilters').innerHTML='<button class="lf-btn on" data-f="all" onclick="filterLogs(\'all\',this)">All</button>';
-  AGENTS.forEach(a=>{setDot(a.id,'idle');const s=G(`scsum-${a.id}`);if(s)s.textContent='';});
-  swTab('plan');renderBoard();
+  st={phase:'idle',projId:null,brief:'',planCtx:'',dels:{},activeCode:'backend'};
+  chatLog=[];teamLog=[];allLogs=[];atts=[];
+  G('msgs').innerHTML=`<div class="welcome" id="welcome"><div class="wi">👋</div><div class="wt">Hi! I'm Priya, your Project Manager.</div><div class="ws">Tell me in plain English what you'd like to build. I'll handle everything technical.</div></div>`;
+  G('team-msgs').innerHTML='<div style="font-size:11px;color:var(--t2);text-align:center;padding:20px 8px;">Team communications will appear here.</div>';
+  G('actbar').style.display='none';G('t-code').disabled=true;
+  G('phbadge').textContent='Ready';G('sbtn').textContent='Send ↗';
+  AGENTS.forEach(a=>setDot(a.id,'idle'));
+  clearAtts();swTab('chat');
+  G('log-list').innerHTML='<div class="log-empty">No activity yet.</div>';
   document.querySelectorAll('.proj-row').forEach(el=>el.classList.remove('cur'));
 }
 
-// File upload
-function compressImage(file,maxW=1024,quality=0.82){
+// ── Tabs ──
+function swTab(t){
+  ['chat','code','logs'].forEach(x=>{
+    G(`t-${x}`).className=`tab${t===x?' on':''}`;
+    G(`v-${x}`).className=`view${t===x?' on':''}`;
+  });
+}
+
+// ── Attachments ──
+function compressImage(file,maxW=1024,q=0.82){
   return new Promise(resolve=>{
     const img=new Image(),url=URL.createObjectURL(file);
     img.onload=()=>{
       let w=img.width,h=img.height;
       if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
-      const canvas=document.createElement('canvas');
-      canvas.width=w;canvas.height=h;
-      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
       URL.revokeObjectURL(url);
-      const dataUrl=canvas.toDataURL('image/jpeg',quality);
-      resolve({data:dataUrl.split(',')[1],preview:dataUrl,mediaType:'image/jpeg'});
+      const du=c.toDataURL('image/jpeg',q);
+      resolve({data:du.split(',')[1],preview:du,mediaType:'image/jpeg'});
     };
     img.onerror=()=>{URL.revokeObjectURL(url);resolve(null);};
     img.src=url;
@@ -545,188 +555,345 @@ function compressImage(file,maxW=1024,quality=0.82){
 }
 function handleFiles(files){
   [...files].forEach(async file=>{
-    if(file.size>20*1024*1024){alert(`${file.name} is too large (max 20MB)`);return;}
-    const reader=new FileReader();
-    if(file.type.startsWith('image/')){
-      const compressed=await compressImage(file);
-      if(!compressed){alert('Could not process '+file.name);return;}
-      atts.push({name:file.name,type:'image',mediaType:compressed.mediaType,data:compressed.data,preview:compressed.preview});
-      renderAtts();
-      addLog('user','file_upload',`Attached image: ${file.name}`,`📎 Image: ${file.name}`);
+    if(file.size>20*1024*1024){alert(file.name+' is too large (max 20MB)');return;}
+    const isImg=file.type.startsWith('image/');
+    let data,preview,mediaType;
+    if(isImg){
+      const c=await compressImage(file); if(!c) return;
+      data=c.data;preview=c.preview;mediaType=c.mediaType;
     }else{
-      reader.onload=e=>{
-        atts.push({name:file.name,type:'text',content:e.target.result,preview:null});
-        renderAtts();
-        addLog('user','file_upload',`Attached file: ${file.name}`,`📄 File: ${file.name}`);
-      };reader.readAsText(file);
+      await new Promise(res=>{const r=new FileReader();r.onload=e=>{data=e.target.result.split(',')[1];res();};r.readAsDataURL(file);});
+      mediaType=file.type||'application/octet-stream';preview=null;
     }
-  });G('finput').value='';
+    atts.push({name:file.name,isImg,data,preview,mediaType,id:Date.now()+Math.random()});
+    renderAttPrev();
+  });
+  G('finput').value='';
 }
-function renderAtts(){
-  G('astrip').innerHTML=atts.map((a,i)=>`<div class="att-chip">
-    ${a.preview?`<img class="att-thumb" src="${a.preview}" onclick="G('lbimg').src='${a.preview}';G('lightbox').classList.add('on')" style="cursor:zoom-in"/>`:`<div class="att-icon">📄</div>`}
-    <div class="att-meta"><div class="att-n">${a.name}</div><div class="att-s">${a.type}</div></div>
-    <button class="att-rm" onclick="atts.splice(${i},1);renderAtts()">×</button>
-  </div>`).join('');
+function renderAttPrev(){
+  const p=G('att-preview');
+  if(!atts.length){p.style.display='none';return;}
+  p.style.display='flex';
+  p.innerHTML=atts.map(a=>`<div class="att-chip">${a.isImg?`<img src="${a.preview}"/>`:'📄'}<span style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${a.name}</span><button class="att-chip-rm" onclick="removeAtt('${a.id}')">×</button></div>`).join('');
 }
+function removeAtt(id){atts=atts.filter(a=>String(a.id)!==String(id));renderAttPrev();}
+function clearAtts(){atts=[];G('att-preview').style.display='none';G('att-preview').innerHTML='';}
 
-// Drag & drop
-const ia=G('inparea');
-ia.addEventListener('dragover',e=>{e.preventDefault();ia.classList.add('drag-over');});
-ia.addEventListener('dragleave',()=>ia.classList.remove('drag-over'));
-ia.addEventListener('drop',e=>{e.preventDefault();ia.classList.remove('drag-over');handleFiles(e.dataTransfer.files);});
-
-// API
-function buildContent(text){
-  if(!atts.length)return text;
+// ── API ──
+function buildContent(text,attachments){
+  if(!attachments||!attachments.length) return text;
   const parts=[];
-  atts.forEach(a=>{
-    if(a.type==='image')parts.push({type:'image',source:{type:'base64',media_type:a.mediaType,data:a.data}});
-    else parts.push({type:'text',text:`[Attached: ${a.name}]\n${a.content}`});
+  attachments.forEach(a=>{
+    if(a.isImg) parts.push({type:'image',source:{type:'base64',media_type:a.mediaType,data:a.data}});
+    else parts.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:a.data}});
   });
   parts.push({type:'text',text});
   return parts;
 }
-async function callAI(sys,content){
-  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sys,messages:[{role:'user',content}],max_tokens:1000})});
+async function callAI(system,userContent){
+  const content=Array.isArray(userContent)?userContent:userContent;
+  const r=await fetch('/api/chat',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({system,messages:[{role:'user',content}],max_tokens:1500})
+  });
   const d=await r.json();
-  if(d.error)throw new Error(typeof d.error==='object'?(d.error.message||JSON.stringify(d.error)):d.error);
+  if(d.error) throw new Error(typeof d.error==='object'?(d.error.message||JSON.stringify(d.error)):d.error);
   return d.content[0].text;
 }
 
-// Messages
-function addMsgRaw(aid,txt,isU,imgs){
-  const msgs=G('msgs');const w=msgs.querySelector('.welcome');if(w)w.remove();
-  const a=isU?{name:'You',init:'U',c:'var(--t1)',bg:'var(--bg3)'}:ag(aid);
-  const d=document.createElement('div');d.className=`mrow${isU?' u':''}`;
-  const imgsH=imgs&&imgs.length?`<div class="msg-imgs">${imgs.map(s=>`<img class="msg-img" src="${s}" onclick="G('lbimg').src='${s}';G('lightbox').classList.add('on')"/>`).join('')}</div>`:'';
-  d.innerHTML=`<div class="mav" style="background:${a.bg};color:${a.c}">${a.init}</div><div class="mc"><div class="mh">${isU?'You (Client)':a.name+' · '+a.role}</div>${imgsH}<div class="mb">${esc(txt)}</div></div>`;
+// ── Chat messages (client ↔ PM) ──
+function renderChatMsg(m){
+  const msgs=G('msgs');
+  const w=msgs.querySelector('.welcome');if(w) w.remove();
+  const a=m.isUser?{name:'You',role:'Client',init:'U',c:'var(--t1)',bg:'var(--bg3)'}:ag('pm');
+  const d=document.createElement('div');d.className=`mrow${m.isUser?' u':''}`;
+  const attHtml=m.atts&&m.atts.length?`<div class="att-grid">${m.atts.map(a=>a.isImg?`<img class="att-img" src="${a.preview}"/>`:`<div class="att-file">📄 ${a.name}</div>`).join('')}</div>`:'';
+  d.innerHTML=`<div class="mav" style="background:${a.bg};color:${a.c}">${a.init}</div>
+    <div class="mc"><div class="mh">${m.isUser?'You':a.name+' · '+a.role}</div>
+    <div class="mb${m.isUser?'':' pm'}">${attHtml}${escH(m.txt)}</div></div>`;
   msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
 }
-function addMsg(aid,txt,isU){
-  const imgs=isU?atts.filter(a=>a.type==='image').map(a=>a.preview):[];
-  chatHist.push({aid,txt,u:isU||false,imgs});
-  addMsgRaw(aid,txt,isU,imgs);
-  addLog(isU?'user':aid,'message',txt,txt.slice(0,100));
-  if(!isU&&aid)setSum(aid,txt);
+function addChatMsg(txt,isUser,curAtts){
+  const m={txt,isUser,atts:curAtts||[],time:ts()};
+  chatLog.push(m);renderChatMsg(m);
+  addToAllLogs({type:isUser?'client':'pm',name:isUser?'You':'Priya',role:isUser?'Client':'PM',txt,atts:curAtts||[]});
 }
-function addDiv(txt){const d=document.createElement('div');d.className='divmsg';d.textContent=`— ${txt} —`;G('msgs').appendChild(d);G('msgs').scrollTop=G('msgs').scrollHeight;}
-function addThink(aid){const m=G('msgs');const a=ag(aid);const d=document.createElement('div');d.className='mrow';d.id=`thi-${aid}`;d.innerHTML=`<div class="mav" style="background:${a.bg};color:${a.c}">${a.init}</div><div class="mc"><div class="mh">${a.name} · ${a.role}</div><div class="mb tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;m.appendChild(d);m.scrollTop=m.scrollHeight;}
-function rmThink(id){const e=G(`thi-${id}`);if(e)e.remove();}
-function getQs(text,name){const m=text.match(/❓\s*MY QUESTIONS[\s\S]*?\n([\s\S]+?)(?=\n\n[^\n]|$)/i);if(!m)return[];return m[1].trim().split('\n').map(l=>l.replace(/^[-•*\d.]\s*/,'').trim()).filter(l=>l.length>4&&!/none/i.test(l)).map(q=>({name,q}));}
+function addChatThink(){
+  const msgs=G('msgs');const a=ag('pm');
+  const d=document.createElement('div');d.className='mrow';d.id='pm-think';
+  d.innerHTML=`<div class="mav" style="background:${a.bg};color:${a.c}">${a.init}</div>
+    <div class="mc"><div class="mh">${a.name} · ${a.role}</div>
+    <div class="mb pm tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function rmChatThink(){const e=G('pm-think');if(e)e.remove();}
 
-// Planning
-async function runPlan(brief){
-  G('sbtn').disabled=true;G('phbadge').textContent='Team is planning…';
-  st.qs=[];let ctx='';
-  const hasAtts=atts.length>0;
-  const note=hasAtts?'\n\n[Client has attached reference images/files above — please analyze them carefully.]':'';
-  const briefContent=buildContent(`Client brief:\n${brief}${note}`);
-  addLog('user','message',`New project: ${brief}`,`🚀 Project briefed`);
+// ── Team messages (internal panel) ──
+function renderTeamMsg(m){
+  const c=G('team-msgs');
+  const first=c.querySelector('div[style]');if(first&&first.style.textAlign)first.remove();
+  const a=m.fromPM?ag('pm'):ag(m.aid);
+  const d=document.createElement('div');d.className='tm';
+  d.innerHTML=`<div class="tm-av" style="background:${a.bg};color:${a.c}">${a.init}</div>
+    <div class="tm-body">
+      <div class="tm-hdr"><span class="tm-name">${a.name}</span><span class="tm-time">${m.time}</span></div>
+      <div class="tm-txt">${escH(m.txt)}</div>
+    </div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function addTeamMsg(aid,txt,fromPM){
+  const m={aid,txt,fromPM:!!fromPM,time:ts()};
+  teamLog.push(m);renderTeamMsg(m);
+  addToAllLogs({type:'team',name:fromPM?'Priya':ag(aid)?.name,role:fromPM?'PM (to team)':ag(aid)?.role,aid:fromPM?'pm':aid,txt});
+}
+function addTeamThink(aid){
+  const c=G('team-msgs');const a=ag(aid);
+  const d=document.createElement('div');d.className='tm';d.id=`tm-${aid}`;
+  d.innerHTML=`<div class="tm-av" style="background:${a.bg};color:${a.c}">${a.init}</div>
+    <div class="tm-body"><div class="tm-hdr"><span class="tm-name">${a.name}</span></div>
+    <div class="tm-txt thinking-dots"><div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div></div></div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function rmTeamThink(aid){const e=G(`tm-${aid}`);if(e)e.remove();}
+
+// ── All logs ──
+function addToAllLogs(entry){
+  allLogs.push({...entry,time:ts(),id:Date.now()+Math.random()});
+  renderLogList();
+}
+function addSysLog(txt){
+  allLogs.push({type:'sys',txt,time:ts(),id:Date.now()+Math.random()});
+  renderLogList();
+}
+function renderLogList(){
+  const filtered=logFilter==='all'?allLogs
+    :logFilter==='client'?allLogs.filter(l=>l.type==='client'||l.type==='sys')
+    :logFilter==='pm'?allLogs.filter(l=>l.type==='pm'||l.type==='sys')
+    :allLogs.filter(l=>l.type==='team'||l.type==='sys');
+  const el=G('log-list');
+  if(!filtered.length){el.innerHTML='<div class="log-empty">No entries for this filter.</div>';return;}
+  el.innerHTML=filtered.map(l=>{
+    if(l.type==='sys') return `<div class="le sys-entry"><span style="font-size:11px;color:var(--t2)">${l.time} — ${escH(l.txt)}</span></div>`;
+    const a=l.type==='client'?{init:'U',c:'var(--t1)',bg:'var(--bg3)'}:ag(l.aid||'pm');
+    const isLong=l.txt&&l.txt.length>180;
+    const tag=l.type==='team'?'<span class="le-tag">internal</span>':l.type==='pm'?'<span class="le-tag" style="background:rgba(127,119,221,.2);color:var(--purple)">pm→client</span>':'';
+    return `<div class="le ${l.type==='client'?'client-entry':l.type==='pm'?'pm-entry':''}">
+      <div class="le-av" style="background:${a?.bg};color:${a?.c}">${a?.init||'?'}</div>
+      <div class="le-body">
+        <div class="le-meta"><span class="le-name">${escH(l.name||'')}</span><span class="le-role">${escH(l.role||'')}</span>${tag}<span class="le-time">${l.time}</span></div>
+        <div class="le-txt${isLong?' clamp':''}" id="ll-${l.id}">${escH(l.txt||'')}</div>
+        ${isLong?`<button class="le-expand" onclick="toggleLe('${l.id}',this)">Show more ↓</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  el.scrollTop=el.scrollHeight;
+}
+function toggleLe(id,btn){
+  const el=G(`ll-${id}`);const c=el.classList.contains('clamp');
+  el.classList.toggle('clamp',!c);btn.textContent=c?'Show less ↑':'Show more ↓';
+}
+function filterLog(f,btn){
+  logFilter=f;
+  document.querySelectorAll('.lf').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderLogList();
+}
+function exportLogs(){
+  const txt=allLogs.map(l=>`[${l.time}] ${l.type.toUpperCase()} — ${l.name||''} (${l.role||''})\n${l.txt||''}`).join('\n\n---\n\n');
+  const blob=new Blob([txt],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`devteam-logs-${Date.now()}.txt`;a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Code view ──
+function renderCodeTabs(){
+  G('ctabs').innerHTML=FILES.map(f=>{
+    const done=!!st.dels[f.aid];
+    return `<button class="ctab${f.aid===st.activeCode?' on':''} ${done?'rdy':''}" id="ct-${f.aid}" onclick="showCode('${f.aid}')">${f.file}${done?' ✓':''}</button>`;
+  }).join('');
+  showCode(st.activeCode);
+}
+function showCode(aid){
+  st.activeCode=aid;
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));
+  const t=G(`ct-${aid}`);if(t) t.classList.add('on');
+  const area=G('carea');const code=st.dels[aid];const fi=FILES.find(f=>f.aid===aid);
+  if(code===null){area.innerHTML=`<div style="display:flex;gap:8px;padding:16px;font-size:13px;color:var(--t1)"><div class="td"></div><div class="td"></div><div class="td"></div>&nbsp;Writing ${fi?.file}...</div>`;return;}
+  if(!code){area.innerHTML=`<div class="cph">Click "Generate starter code" to create this file.</div>`;return;}
+  area.innerHTML=`<div class="cblock"><div class="chdr"><span class="cfn">${fi?.file}</span><div style="display:flex;gap:6px"><button class="cbtn" onclick="copyCode('${aid}')">Copy</button><button class="cbtn" onclick="dlCode('${aid}')">Download</button></div></div><pre>${escH(code)}</pre></div>`;
+}
+function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function copyCode(aid){navigator.clipboard.writeText(st.dels[aid]).catch(()=>{});const b=event.target;b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',2000);}
+function dlCode(aid){
+  const fi=FILES.find(f=>f.aid===aid);
+  const blob=new Blob([st.dels[aid]],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=fi.file;a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Main flow ──
+
+// Step 1: PM greets and asks simple questions
+async function pmIntake(clientMsg, curAtts){
+  setDot('pm','thinking');addChatThink();
+  const content=buildContent(`Client says:\n${clientMsg}`, curAtts);
   try{
-    setDot('orchestrator','thinking');addThink('orchestrator');
-    const o=await callAI(PLAN.orchestrator,briefContent);
-    rmThink('orchestrator');setDot('orchestrator','done');addMsg('orchestrator',o);
-    ctx=`PM PLAN:\n${o}\n\n`;st.agOut.orchestrator=o;
-    st.qs.push(...getQs(o,'Priya (PM)'));
-    addDiv('Team weighing in');
-    for(const aid of['backend','dba','frontend','security','qa']){
-      const a=ag(aid);setDot(aid,'thinking');addThink(aid);
-      const agContent=buildContent(`PROJECT BRIEF:\n${brief}${note}\n\n${ctx}\nProvide your contribution.`);
-      const out=await callAI(PLAN[aid],agContent);
-      rmThink(aid);
-      const qs=getQs(out,`${a.name} (${a.role})`);st.qs.push(...qs);
-      setDot(aid,qs.length?'question':'done');addMsg(aid,out);
-      st.agOut[aid]=out;ctx+=`${a.name.toUpperCase()}:\n${out}\n\n`;
-      if(qs.length)addLog(aid,'question',`${a.name} asks: ${qs.map(q=>q.q).join(' | ')}`,`❓ ${qs.length} question(s)`);
+    const reply=await callAI(PM_INTAKE, content);
+    rmChatThink();setDot('pm','done');
+    addChatMsg(reply,false);
+    st.phase='intake';
+    G('sbtn').textContent='Reply ↗';
+    addSysLog('PM intake complete — waiting for client clarification');
+  }catch(e){
+    rmChatThink();setDot('pm','idle');
+    addChatMsg(`Sorry, I ran into an issue: ${e.message}\n\nPlease try again.`,false);
+    st.phase='idle';
+  }
+}
+
+// Step 2: PM briefs team internally, team responds internally, PM summarises for client
+async function pmBriefAndPlan(clientFullContext){
+  setDot('pm','busy');
+  addSysLog('PM briefing the team internally…');
+
+  // PM writes internal brief
+  addTeamThink('pm');
+  let pmBrief;
+  try{
+    pmBrief=await callAI(PM_BRIEF_TEAM, `Client's full context:\n${clientFullContext}`);
+    rmTeamThink('pm');
+    addTeamMsg('pm', pmBrief, true); // PM → team
+    st.planCtx=pmBrief;
+    addSysLog('PM brief sent to team');
+  }catch(e){
+    rmTeamThink('pm');
+    addChatMsg(`Sorry, something went wrong: ${e.message}`,false);
+    setDot('pm','idle');st.phase='idle';return;
+  }
+
+  // Each team member responds internally
+  let teamContext=`PM BRIEF:\n${pmBrief}\n\n`;
+  for(const aid of['backend','dba','frontend','security','qa']){
+    setDot(aid,'thinking');addTeamThink(aid);
+    try{
+      const out=await callAI(TEAM_PROMPTS[aid], `${teamContext}\nYour PM has briefed you. Provide your assessment.`);
+      rmTeamThink(aid);setDot(aid,'done');
+      addTeamMsg(aid,out,false);
+      teamContext+=`${ag(aid).name.toUpperCase()} SAYS:\n${out}\n\n`;
+      addSysLog(`${ag(aid).name} responded to PM brief`);
+    }catch(e){
+      rmTeamThink(aid);setDot(aid,'idle');
+      addTeamMsg(aid,`Could not respond: ${e.message}`,false);
     }
-    st.planCtx=ctx;
-    atts=[];renderAtts();
-    if(st.qs.length){
-      G('qpanel').style.display='block';
-      G('qlist').innerHTML=st.qs.map(q=>`<div class="qi"><b>${q.name}:</b> ${q.q}</div>`).join('');
-      G('sbtn').textContent='Reply ↗';G('phbadge').textContent='Questions pending';st.phase='questions';
-    }else{
-      G('actbar').style.display='flex';G('phbadge').textContent='Planning complete';
-      G('sbtn').textContent='Follow up ↗';G('inp').placeholder='Follow up or attach more references…';st.phase='done-plan';
-    }
+  }
+
+  // PM reads all team input and summarises for client in plain English
+  setDot('pm','thinking');addChatThink();
+  addSysLog('PM summarising for client…');
+  try{
+    const summary=await callAI(PM_RESPOND_CLIENT,
+      `CLIENT'S REQUEST:\n${clientFullContext}\n\nINTERNAL TEAM INPUT:\n${teamContext}\n\nNow write your plain-English summary for the client.`
+    );
+    rmChatThink();setDot('pm','done');
+    addChatMsg(summary,false);
+    st.planCtx=teamContext;
+    G('actbar').style.display='flex';
+    G('actbar-msg').textContent='Ready to generate starter code';
+    G('phbadge').textContent='Planning complete';
+    st.phase='done-plan';
+    addSysLog('Planning complete — ready for code generation');
     saveProj();
   }catch(e){
-    AGENTS.forEach(a=>{rmThink(a.id);setDot(a.id,'idle');});
-    addMsg('orchestrator',`Error: ${e.message}\n\nCheck your API connection and try again.`);
-    st.phase='idle';G('phbadge').textContent='Error — retry';
+    rmChatThink();setDot('pm','idle');
+    addChatMsg(`I had trouble summarising the team's input: ${e.message}`,false);
+    st.phase='intake';
   }
-  G('sbtn').disabled=false;
 }
 
-async function handleReply(msg){
-  G('sbtn').disabled=true;addMsg(null,msg,true);setDot('orchestrator','thinking');addThink('orchestrator');
-  addLog('user','message',`Client reply: ${msg}`,`Reply: ${msg.slice(0,60)}`);
-  try{
-    const ctx=`BRIEF: ${st.brief}\n\nPLAN:\n${st.planCtx}\n\nQUESTIONS:\n${st.qs.map(q=>`- ${q.name}: ${q.q}`).join('\n')}\n\nCLIENT REPLY:\n${msg}`;
-    const out=await callAI(PLAN.followup,ctx);
-    rmThink('orchestrator');setDot('orchestrator','done');addMsg('orchestrator',out);
-    G('qpanel').style.display='none';
-    AGENTS.forEach(a=>{if(G(`d-${a.id}`)?.className.includes('question'))setDot(a.id,'done');});
-    G('actbar').style.display='flex';G('phbadge').textContent='Planning complete';
-    G('sbtn').textContent='Follow up ↗';st.phase='done-plan';st.qs=[];
-    saveProj();
-  }catch(e){rmThink('orchestrator');addMsg('orchestrator','Error: '+e.message);}
-  G('sbtn').disabled=false;
-}
-
+// Code generation
 async function startCodeGen(){
   const gbtn=G('gbtn');gbtn.disabled=true;gbtn.textContent='Generating…';
   G('t-code').disabled=false;swTab('code');
-  FDEFS.forEach(f=>{st.dels[f.aid]=undefined;});renderCodeTabs();
-  const ctx=`PROJECT BRIEF:\n${st.brief}\n\nDETAILED PLAN:\n${st.planCtx}`;
-  addLog('system','code_gen','Code generation started — 5 files','🔨 Generating code');
-  for(const{aid,file}of FDEFS){
+  FILES.forEach(f=>{st.dels[f.aid]=undefined;});renderCodeTabs();
+  addSysLog('Code generation started');
+  const ctx=`PROJECT PLAN:\n${st.planCtx}`;
+  for(const{aid,file}of FILES){
     setDot(aid,'gen');st.dels[aid]=null;
-    const tab=G(`ct-${aid}`);if(tab){tab.className='ctab gen';tab.textContent=file+' ⋯';}
-    if(st.activeCode===aid)showCode(aid);
-    addLog(aid,'code_gen',`Writing ${file}…`,`⚙️ Writing ${file}`);
+    const tab=G(`ct-${aid}`);
+    if(tab){tab.className='ctab gen';tab.textContent=file+' ⋯';}
+    if(st.activeCode===aid) showCode(aid);
     try{
-      const code=await callAI(CODE[aid],ctx);
+      const code=await callAI(CODE_PROMPTS[aid],ctx);
       st.dels[aid]=code;setDot(aid,'done');
       if(tab){tab.className='ctab rdy';tab.textContent=file+' ✓';}
-      if(st.activeCode===aid)showCode(aid);
-      addLog(aid,'code_gen',`${file} done — ${code.split('\n').length} lines`,`✅ ${file} ready`);
+      if(st.activeCode===aid) showCode(aid);
+      addSysLog(`${file} generated ✓`);
     }catch(e){
-      st.dels[aid]=`// Error: ${e.message}`;setDot(aid,'idle');
-      if(tab){tab.className='ctab';tab.textContent=file;}
-      addLog(aid,'code_gen',`Error: ${e.message}`,`❌ ${file} failed`);
+      st.dels[aid]=`// Error: ${e.message}`;
+      setDot(aid,'idle');if(tab){tab.className='ctab';tab.textContent=file;}
     }
   }
   st.activeCode='backend';renderCodeTabs();
   gbtn.disabled=false;gbtn.textContent='Regenerate ↗';
   G('phbadge').textContent='5 files ready';
-  addLog('system','code_gen','All 5 files generated successfully','✅ Code generation complete');
+  addSysLog('All code files generated');
+
+  // PM tells client in plain English
+  addChatThink();
+  try{
+    const note=await callAI(PM_FOLLOWUP,`Tell the client their starter code files are ready to download. List the files in plain English (not technical filenames) — e.g. "your server file, your database setup, your main screen code". Keep it to 3-4 friendly sentences. Tell them the next step is to share these with a developer or ask you for deployment help.`);
+    rmChatThink();addChatMsg(note,false);
+  }catch(e){rmChatThink();}
   saveProj();
 }
 
-function useEx(el){G('inp').value=el.textContent.replace(/^.\s/,'');G('inp').focus();}
-
+// Main send handler
 async function go(){
-  const inp=G('inp');const txt=inp.value.trim();if(!txt&&!atts.length)return;inp.value='';
-  if(st.phase==='questions'){await handleReply(txt);return;}
-  st.brief=txt||'Please analyze the attached files.';
-  st.projId=Date.now().toString();st.agOut={};st.dels={};chatHist=[];elog=[];
-  st.phase='planning';G('actbar').style.display='none';G('qpanel').style.display='none';
-  G('t-code').disabled=true;AGENTS.forEach(a=>setDot(a.id,'idle'));
-  G('llist').innerHTML='';
-  G('lfilters').innerHTML='<button class="lf-btn on" data-f="all" onclick="filterLogs(\'all\',this)">All</button>';
-  addMsg(null,txt||(atts.length?'[Shared '+atts.length+' file(s) with the team]':''),true);
-  G('phbadge').textContent='Team is planning…';
-  await runPlan(st.brief);
+  const inp=G('inp');const txt=inp.value.trim();if(!txt) return;
+  inp.value='';
+  const curAtts=[...atts];clearAtts();
+  addChatMsg(txt,true,curAtts);
+
+  if(st.phase==='idle'){
+    // First message — PM does intake
+    st.brief=txt;st.projId=Date.now().toString();
+    chatLog=[];teamLog=[];allLogs=[];
+    chatLog.push({txt,isUser:true,atts:curAtts,time:ts()});
+    allLogs.push({type:'client',name:'You',role:'Client',txt,atts:curAtts,time:ts(),id:Date.now()});
+    addSysLog('New project started');
+    st.phase='intake-wait';
+    await pmIntake(txt,curAtts);
+  }else if(st.phase==='intake'||st.phase==='intake-wait'){
+    // Client replied — now do full team planning
+    st.brief+='\n\nFollow-up: '+txt;
+    st.phase='planning';
+    G('sbtn').disabled=true;
+    G('phbadge').textContent='Team is working…';
+    await pmBriefAndPlan(st.brief+(curAtts.length?`\n\n[Client attached ${curAtts.length} file(s)]`:''));
+    G('sbtn').disabled=false;
+  }else if(st.phase==='done-plan'||st.phase==='done'){
+    // Follow-up question to PM
+    setDot('pm','thinking');addChatThink();
+    try{
+      const ctx=`PROJECT CONTEXT:\n${st.planCtx}\n\nCLIENT SAYS:\n${txt}`;
+      const reply=await callAI(PM_FOLLOWUP,ctx);
+      rmChatThink();setDot('pm','done');addChatMsg(reply,false);
+      saveProj();
+    }catch(e){rmChatThink();addChatMsg(`Sorry: ${e.message}`,false);}
+  }
 }
 
-G('inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')G('lightbox').classList.remove('on');});
+function useEx(el){G('inp').value=el.textContent.slice(2).trim();G('inp').focus();}
 
-renderTeam();
-renderBoard();
-loadProjList();
+G('inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}});
+
+// Drag & drop
+const ia=document.querySelector('.inparea');
+ia.addEventListener('dragover',e=>{e.preventDefault();});
+ia.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer.files.length)handleFiles(e.dataTransfer.files);});
+
+renderTeam();loadProjList();
 </script>
 </body>
 </html>
